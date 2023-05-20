@@ -1,0 +1,377 @@
+// Global styling for every element in the page
+* {
+    padding: 0;
+    border: 0;
+    color: $color-1;
+    background: none;
+    box-sizing: border-box;
+}
+// Background & basic styling for the body
+body {
+    margin: 0;
+    font-family: $font-family-1;
+    //Imagen de fondo para todas las páginas
+    background-image: url(/assets/img/resized/bgImage-1080.jpg);
+    background-size: 100vw;
+}
+.background {
+    width: 100%;
+    z-index: -5;
+}
+#backgroundVideo {
+    width: 100%;
+}
+// Basic styling for the background image of the home page
+#backgroundImage {
+    width: 100%;
+    max-height: 70vh;
+    // This linear gradient smooths the transition between the background image and the background video
+    -webkit-mask-image: linear-gradient(to top, var(--dark-color) 90%, transparent);
+    mask-image: linear-gradient(to top, var(--dark-color) 90%, transparent);
+    z-index: -4;
+}
+.welcoming {
+    margin: 7% 0 0 5%;
+    width: 400px;
+}
+.welcoming-heading, .news-header {
+    font-weight: 400;
+    letter-spacing: 1px;
+}
+.welcoming-content {
+    margin-left: 25px;
+}
+.visit-blog-arrow {
+    border: none;
+    background: none;
+    transition: .3s ease;
+    // When hovering the arrow, it will slightly increase in size
+    &:hover {
+        transform: scale(1.1);
+        cursor: pointer;
+    }
+}
+.blog {
+    margin: 25% 15% 5% 15%;
+}
+.blog-heading {
+    font-size: 30px;
+    letter-spacing: 2px;
+    text-align: center;
+}
+.entry-image {
+    margin-right: 50px;
+    // the entry's images will be always squared
+    img {
+        @include square(320px);
+        object-fit: cover;
+    }
+}
+.entry-readFullArticle {
+    a {
+        color: $color-2;
+    }
+}
+.entry-heading {
+    h2 {
+        margin: 0;
+    }
+}
+h3 {
+    margin: 0;
+    font-size: 1.1rem;
+}
+.article-title {
+    h1 {
+        font-size: 40px;
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-align: center;
+    }
+}
+.article-image {
+    img {
+        width: 100%;
+    }
+}
+// Styling for the article's text
+.article-info {
+    gap: 50px;
+    p {
+        font-size: 18px;
+        margin: 0;
+    }
+}
+.article-main {
+    margin: 20px 10px;
+    p {
+        font-size: 18px;
+        line-height: 1.2;
+        margin: 30px 0;
+    }
+}
+// Styling for the news main title
+.news-header {
+    align-self: center;
+    font-weight: bolder;
+    margin-top: 20px;
+}
+.slider-img{
+    max-width: 1000px;
+    max-height: 500px;
+    margin: auto;
+}
+.gallery-nav {
+    gap: 7rem;
+    transform: translateX(-7px);
+}
+// When hovering the gallery's images, they will slightly increase in size
+.gallery-content {
+    .image {
+        width: 100%;
+        transition: 0.3s ease-in-out;
+        &:hover {
+            cursor: pointer;
+            transform: scale(105%);
+        }
+    }
+}
+.contact-submit {
+    background: none;
+    border-color: var(--light-color);
+    // When hovering the submit button, it will change colors and the cursor will change to a pointer
+    &:hover {
+        background: var(--light-color);
+        color: var(--dark-color);
+        cursor: pointer;
+    }
+}
+// When the screen size increases, the font size will increase too
+@media (min-width: 2000px) {
+    body {
+        font-size: 1.5em;
+    }
+    .welcoming {
+        margin: 5% 0 0 4%;
+        width: 30vw;
+    }
+    .welcoming-heading, .news-header {
+        font-weight: 400;
+        letter-spacing: 1px;
+    }
+    .blog-content {
+        gap: 100px;
+    }
+    .article-content {
+        margin: 0 20%;
+    }
+    .article-main p {
+        font-size: 20px;
+    }
+    .gallery-nav {
+        gap: 10rem;
+    }
+}
+@media (min-width: 2600px) {
+    body {
+        font-size: 2em;
+    }
+    .welcoming {
+        margin: 5% 0 0 4%;
+        width: 800px;
+    }
+    .welcoming-heading, .news-header, .news-header {
+        font-weight: 400;
+        letter-spacing: 1px;
+    }
+    .article-content {
+        margin: 0 28%;
+    }
+    .article-main p {
+        font-size: 24px;
+    }
+}
+@media (min-width: 3200px) {
+    .article-content {
+        margin: 0 30%;
+    }
+    .article-main p {
+        font-size: 28px;
+    }
+}
+// If the screen size is reduced, the font size will decrease too
+@media (max-width: 1500px) {
+    .welcoming {
+        width: 400px;
+    }
+    .welcoming-heading, .news-header {
+        font-weight: 400;
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+}
+@media (max-width: 1200px) {
+    .welcoming {
+        margin: 4% 0 0 3%;
+        width: 330px;
+    }
+    .welcoming-heading, .news-header {
+        font-weight: 400;
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+    .gallery-nav {
+        gap: 5rem;
+    }
+}
+// Not only the font size will decrease, but also the width of the sections and the margins
+@media (max-width: 1050px) {
+    .welcoming {
+        width: 330px;
+    }
+    .welcoming-heading, .news-header {
+        font-size: 14px;
+    }
+    .welcoming-content {
+        font-size: 14px;
+    }
+    .blog {
+        margin: 18% 15% 5% 15%;
+    }
+    .blog-heading {
+        font-size: 28px;
+    }
+    .blog-content {
+        gap: 100px;
+    }
+    .entry-heading {
+        h2 {
+            font-size: 22px;
+        }
+    }
+    .entry-image {
+        img {
+            @include square(250px);
+        }
+    }
+    .entry-text {
+        font-size: 14px;
+    }
+    .gallery-nav {
+        gap: 1rem;
+        max-width: 650px;
+        z-index: -1;
+        button {
+            margin: 0 1rem;
+        }
+    }
+    .about-content {
+        font-size: 12px;
+    }
+}
+@media (max-width: 800px) {
+    .welcoming {
+        margin: 4% 0 0 3%;
+        width: 300px;
+    }
+    .welcoming {
+        margin: 5% 0 0 5%;
+        width: 300px;
+    }
+    .welcoming-content {
+        font-size: 2vw;
+    }
+    .welcoming-heading, .news-header {
+        font-size: 2vw;
+    }
+    .blog {
+        margin: 18% 12% 5% 12%;
+    }
+    .article-main {
+        p {
+            font-size: 14px;
+        }
+    }
+    .entry-image {
+        margin-right: 20px;
+        // The images will still be a square but the size will be smaller
+        img {
+            @include square(200px);
+        }
+    }
+}
+@media (max-width: 600px) {
+    .welcoming {
+        margin: 5% 0 0 5%;
+        width: 280px;
+    }
+    .welcoming-content {
+        font-size: 12px;
+    }
+    .welcoming-heading, .news-header {
+        font-size: 12px;
+    }
+    .blog {
+        margin: 35% 10% 5% 10%;
+    }
+    .blog-heading {
+        font-size: 20px;
+    }
+    .blog-entry {
+        flex-direction: column;
+    }
+    .entry-image {
+        margin: 0;
+    }
+    .article-content {
+        margin: 0 12%;
+    }
+    .article-title {
+        h1 {
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+    }
+    .article-info {
+        align-self: center;
+        p {
+            font-size: 14px;
+        }
+    }
+    .article-main {
+        margin: 20px 10px;
+        p {
+            font-size: 12px;
+        }
+    }
+    .entry-content {
+        text-align: center;
+    }
+    .gallery-nav {
+        max-width: 300px;
+        button {
+            font-size: 18px;
+        }
+    }
+}
+// If the screen size is below 450px, the video shown will be different
+@media (max-width: 450px) {
+    #backgroundVideo3 {
+        display: none;
+    }
+    #backgroundVideo4 {
+        display: block;
+    }
+    .welcoming {
+        margin: 5% 0 0 5%;
+        width: 230px;
+    }
+    .article-info {
+        p {
+            font-size: 12px;
+        }
+    }
+    .gallery-content {
+        padding: 0 10%;
+    }
+}

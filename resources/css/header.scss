@@ -1,0 +1,250 @@
+
+// Animation when opening the menu
+@keyframes open-menu {
+    0% {
+        transform: translateX(100%);
+        display: none;
+    }
+    100% {
+        transform: translateX(0);
+        display: flex;
+    }
+}
+// Animation when closing the menu
+@keyframes close-menu {
+    0% {
+        transform: translateX(0);
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+    100% {
+        transform: translateX(100%);
+        display: none;
+    }
+}
+.menu {
+    padding: 25px 40px;
+    // We make sure that the nav will always be above the rest of the page's elements
+    .nav-content {
+        z-index: 9;
+    }
+}
+// The menu button will be a square with a burger icon
+.menu-btn {
+    @include square(42px);
+    // It will be always above the rest of the page's elements
+    z-index: 9;
+    cursor: pointer;
+    // Personalized animation when opening the menu
+    transition: all 0.5s cubic-bezier(0, 0.1, 0, 0.9);
+    // The burger icon will be a square with 3 lines
+    .menu-btn--burger {
+        width: 30px;
+        height: 3px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(45, 45, 45, 0.2);
+        background-color: $color-1;
+        transition: all 0.5s cubic-bezier(0, 0.1, 0, 0.9);
+        // The up & down lines from the burguer icon are made with ::before & ::after
+        &::before {
+            @include traslateY(-10px);
+        }
+        &::after {
+            @include traslateY(10px);
+        }
+    }
+}
+// When the menu is open, the burger icon will rotate 225 degrees and the up & down lines will move to form a cross
+.menu-btn.open {
+    .menu-btn--burger {
+        transform: rotate(225deg);
+        &::before {
+            transform: rotate(0) translate(0, 0);
+        }
+        &::after {
+            transform: rotate(90deg) translate(0, 0);
+        }
+    }
+}
+.logo-title-content {
+    a {
+        text-decoration: none;
+    }
+    &:hover {
+        cursor: pointer;
+    }
+}
+// The logo will always be a square
+.logo {
+    @include square(60px);
+}
+.title {
+    font-family: $font-family-1;
+    font-size: 2.6vw;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+.nav-menu {
+    ul {
+        list-style: none;
+    }
+}
+.nav-button {
+    padding: 0 20px;
+    a {
+        color: var(--light-color)
+    }
+    // The nav buttons will have a gradient background with an animation when hovering, to make them look like underlined text
+    a, .surprise, button {
+        text-decoration: none;
+        font-family: $font-family-1;
+        font-size: 24px;
+        font-weight: 500;
+        text-transform: uppercase;
+        background-image: linear-gradient(currentColor, currentColor);
+        background-position: 0 90%;
+        background-repeat: no-repeat;
+        background-size: 0 3px;
+        transition: background-size 0.3s;
+        // The background is hidden by default but will be shown when hovering
+        &:hover {
+            cursor: pointer;
+            background-size: 100% 3px;
+        }
+    }
+    .a {
+        &:active {
+            cursor: pointer;
+            background-size: 100% 3px;
+        }
+    }
+}
+// Accent color for the surprise button
+.surprise {
+    color: $color-2;
+}
+// When the screen is bigger than 2400px, the menu will have a bigger font size and the logo will be bigger
+@media (min-width: 2400px) {
+    .title {
+        font-size: 66px;
+    }
+    .menu {
+        padding: 25px 40px;
+    }
+    .logo {
+        @include square(72px);
+    }
+    .nav-button {
+        a {
+            font-size: 30px;
+        }
+        .surprise {
+            font-size: 30px;
+        }
+    }
+}
+// When the screen is smaller than 1500px, the font sizes & logo will start to decrease
+@media (max-width: 1500px) {
+    .title {
+        font-size: 3vw;
+    }
+    .menu {
+        padding: 15px 30px;
+    }
+    .logo {
+        @include square(48px);
+    }
+    .nav-button {
+        a {
+            font-size: 20px;
+        }
+        .surprise {
+            font-size: 20px;
+        }
+    }
+}
+@media (max-width: 1200px) {
+    .menu {
+        padding: 15px 30px;
+    }
+    .nav-button {
+        a {
+            font-size: 20px;
+        }
+        .surprise {
+            font-size: 20px;
+        }
+    }
+}
+@media (max-width: 1050px) {
+    .menu {
+        padding: 10px 20px;
+    }
+    .nav-button {
+        padding: 0 15px;
+        a {
+            font-size: 18px;
+        }
+        .surprise {
+            font-size: 18px;
+        }
+    }
+}
+@media (max-width: 900px) {
+    .logo {
+        @include square(42px);
+    }
+    .nav-button {
+        a {
+            font-size: 16px;
+        }
+        .surprise {
+            font-size: 16px;
+        }
+    }
+}
+// At 800px, the menu will be hidden and the burger icon will appear
+@media (max-width: 800px) {
+    .menu {
+        padding: 0;
+    }
+    .title {
+        font-size: 4vw;
+    }
+    .logo-title {
+        padding: 15px 20px;
+    }
+    .nav-content {
+        animation: close-menu 0.5s cubic-bezier(0, 0.1, 0, 0.9);
+    }
+    .nav-content.active {
+        background-color: $background-color-1;
+        animation: open-menu 0.5s cubic-bezier(0, 0.1, 0, 0.9);
+    }
+    .nav-menu {
+        ul {
+            z-index: 1;
+        }
+    }
+    .nav-button {
+        a {
+            font-size: 20px;
+        }
+        .surprise {
+            font-size: 20px;
+        }
+    }
+    .burger-menu-icon {
+        display: block;
+    }
+}
+@media (max-width: 600px) {
+    .title {
+        font-size: 5vw;
+    }
+}
+@media (max-width: 500px) {
+    .title {
+        font-size: 6vw;
+    }
+}

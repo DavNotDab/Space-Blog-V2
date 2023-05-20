@@ -1,0 +1,65 @@
+
+// Positioning for the menu of the page
+.menu {
+    // The content will be a centered flex row
+    .menu-content {
+        @include flex-row-center;
+        justify-content: space-between;
+    }
+    // Nav content positioning & media queries
+    .nav-content {
+        flex-direction: row;
+        @media (max-width: 800px) {
+            display: none;
+            @include absolute(0, 0, auto, auto);
+            flex-direction: column-reverse;
+            align-items: flex-end;
+        }
+        // Nav's content positioning when the menu is active
+        &.active {
+            @media (max-width: 800px) {
+                display: flex;
+            }
+        }
+    }
+}
+// Positioning & media queries for the menu button
+.menu-btn {
+    @include absolute(15px, 20px, auto, auto);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    @media (max-width: 800px) {
+        display: flex;
+    }
+}
+// Positioning for the logo & title of the page
+.logo-title-content {
+    a {
+        @include flex-row-center;
+        gap: 10px;
+    }
+}
+// Positioning & media queries for the nav menu
+.nav-menu {
+    ul {
+        display: flex;
+        @include gap-padding-margin(50px,0 50px, 11px 0);
+        @media (min-width: 2400px) {
+            @include gap-padding-margin(60px,0 35px, 15px 0);
+        }
+        @media (max-width: 1500px) {
+            @include gap-padding-margin(30px,0 20px, 5px 0);
+        }
+        @media (max-width: 1200px) {
+            @include gap-padding-margin(10px, 0, 5px 0);
+        }
+        @media (max-width: 1050px) {
+            @include gap-padding-margin(0,auto, 5px 0);
+        }
+        @media (max-width: 800px) {
+            flex-direction: column;
+            @include gap-padding-margin(20px,auto, 80px 60px 50px 40px);
+        }
+    }
+}

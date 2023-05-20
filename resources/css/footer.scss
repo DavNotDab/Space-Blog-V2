@@ -1,0 +1,43 @@
+
+// Basic styling for the footer
+footer {
+    background-color: $color-3;
+    img {
+        @include square(40px);
+        margin: 10px;
+    }
+}
+.footer-content {
+    padding: 20px;
+}
+// Links in the footer won't have an underline
+.footer-title-content {
+    a {
+        text-decoration: none;
+    }
+}
+.footer-title {
+    font-family: $font-family-1;
+    font-size: 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    // The font size will be smaller in mobile/tablet devices
+    @media (max-width: 800px) {
+        font-size: 20px;
+    }
+}
+.github {
+    a {
+        color: $color-4;
+    }
+}
+.gitLogo {
+    margin: 0;
+}
+.footer-socialMedia {
+    ul {
+        list-style: none;
+        margin: 0;
+    }
+}

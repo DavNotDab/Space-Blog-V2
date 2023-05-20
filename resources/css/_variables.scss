@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600&display=swap');
+
+:root {
+    // Colors of the page
+    --dark-color: #1D1A1D;
+    --darkish-color: #505261;
+    --light-color: #F7F6EF;
+    --accent-color: #DB9562;
+    // Font family of the page
+    --font-family: 'Kanit', sans-serif;
+}
+
+// Sass variables for the colors and font family
+$color-1: var(--light-color);
+$color-2: var(--accent-color);
+$color-3: var(--darkish-color);
+$color-4: var(--dark-color);
+$background-color-1: rgba(0, 0, 0, 0.9);
+$background-transparent: transparent;
+$font-family-1: var(--font-family);

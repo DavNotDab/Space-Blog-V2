@@ -1,0 +1,65 @@
+
+// Positioning for the footer. The footer is always at the bottom of the page
+footer {
+    bottom: 0;
+}
+// Positioning & media queries for the footer's content.
+.footer-content {
+    @include flex-row-center;
+    justify-content: space-around;
+    @media (min-width: 2000px) {
+        padding: 40px;
+    }
+    @media (max-width: 600px) {
+        flex-direction: column;
+    }
+}
+// Positioning & media queries for the content of the footer title.
+.footer-title-content {
+    a {
+        @include flex-row-center;
+        gap: 10px;
+        @media (max-width: 800px) {
+            gap: 0;
+        }
+    }
+}
+// Positioning & media queries for the author section of the footer.
+.author {
+    @include flex-row-center;
+    justify-content: space-around;
+    gap: 40px;
+    @media (max-width: 1200px) {
+        flex-direction: column;
+        gap: 10px;
+    }
+    @media (max-width: 800px) {
+        gap: 0;
+    }
+    @media (max-width: 600px) {
+        flex-direction: row;
+    }
+}
+// Positioning for the copyrigth section of the footer.
+.copy {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+// Positioning for the github section of the footer.
+.github {
+    a {
+        display: flex;
+        align-items: center;
+    }
+}
+// Positioning & media queries for the social media section of the footer.
+.footer-socialMedia {
+    ul {
+        @include flex-row-center;
+        gap: 20px;
+        @media (max-width: 1200px) {
+            gap: 10px;
+        }
+    }
+}

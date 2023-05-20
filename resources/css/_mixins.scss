@@ -1,0 +1,48 @@
+// Mixin para crear un display: flex row centrado
+@mixin flex-row-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+// Mixin para mover los divs del icono de la hamburguesa arriba o abajo
+@mixin traslateY($y: 0) {
+    content: "";
+    position: absolute;
+    width: 30px;
+    height: 3px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(45, 45, 45, 0.2);
+    background-color: $color-1;
+    transition: all 0.5s cubic-bezier(0, 0.1, 0, 0.9);
+    transform: translateY($y);
+}
+// Mixin para aplicar padding, margin y gap
+@mixin gap-padding-margin($gap: 0, $padding: 0, $margin: 0) {
+    gap: $gap;
+    padding: $padding;
+    margin: $margin;
+}
+// Mixin para crear un display: flex column
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+// Mixin para crear un display: flex row
+@mixin flex-row {
+    display: flex;
+    flex-direction: row;
+}
+// Mixin para crear un elemento cuadrado
+@mixin square($size: 100px) {
+    width: $size;
+    height: $size;
+}
+// Mixin para posicion absoluta
+@mixin absolute($top: 0, $right: 0, $bottom: 0, $left: 0) {
+    position: absolute;
+    top: $top;
+    right: $right;
+    bottom: $bottom;
+    left: $left;
+}
