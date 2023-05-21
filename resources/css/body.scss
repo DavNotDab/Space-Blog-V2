@@ -156,8 +156,10 @@ h3 {
         width: 30vw;
     }
     .welcoming-heading, .news-header {
-        font-weight: 400;
-        letter-spacing: 1px;
+        h1 {
+            font-weight: 400;
+            letter-spacing: 1px;
+        }
     }
     .blog-content {
         gap: 100px;
