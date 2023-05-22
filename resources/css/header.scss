@@ -21,6 +21,28 @@
         display: none;
     }
 }
+// Animation when opening the user menu
+@keyframes open-user-menu {
+    0% {
+        transform: translateY(-20%);
+        display: none;
+    }
+    100% {
+        transform: translateY(0);
+        display: flex;
+    }
+}
+// Animation when closing the user menu
+@keyframes close-user-menu {
+    0% {
+        transform: translateY(0);
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+    100% {
+        transform: translateY(-20%);
+        display: none;
+    }
+}
 .menu {
     padding: 25px 40px;
     // We make sure that the nav will always be above the rest of the page's elements
@@ -123,6 +145,32 @@
 .surprise {
     color: $color-2;
 }
+// For the user login/register dropdown menu
+.dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+    &:hover {
+        cursor: pointer;
+    }
+}
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: $background-color-1;
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    z-index: 10;
+    padding: 20px;
+    gap: 20px;
+    animation: open-user-menu 0.4s cubic-bezier(0, 0.1, 0, 0.9);
+}
+.dropdown:hover .dropdown-content {
+    display: flex;
+    flex-direction: column;
+}
+
 // When the screen is bigger than 2400px, the menu will have a bigger font size and the logo will be bigger
 @media (min-width: 2400px) {
     .title {

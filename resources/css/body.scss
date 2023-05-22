@@ -136,14 +136,15 @@ h3 {
         }
     }
 }
-.contact-submit {
+.form-button {
     background: none;
+    color: var(--light-color);
     border-color: var(--light-color);
     // When hovering the submit button, it will change colors and the cursor will change to a pointer
     &:hover {
+        cursor: pointer;
         background: var(--light-color);
         color: var(--dark-color);
-        cursor: pointer;
     }
 }
 // When the screen size increases, the font size will increase too

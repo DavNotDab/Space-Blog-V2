@@ -58,7 +58,7 @@ export default function About() {
                                 <textarea className="form-control" id="contact-message" rows="4"></textarea>
                             </div>
 
-                            <button type="submit" className="btn btn-primary btn-block contact-submit">Send</button>
+                            <button type="submit" className="btn btn-primary btn-block form-button">Send</button>
                         </form>
                     </div>
                 </div>
