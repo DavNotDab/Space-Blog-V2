@@ -8,10 +8,28 @@ import Footer from "./Footer";
 import Login from "./Login";
 import Register from "./Register";
 import Logout from "./Logout";
+import VerifyEmail from "./VerifyEmail";
+import {useEffect, useState} from "react";
+import loadStatus from "./ApiResources";
+import {useDispatch, useSelector} from "react-redux";
+import Profile from "./Profile";
 
 export default function App() {
 
-    return (
+    const [loading, setLoading] = useState(true)
+    const update = useSelector(state=>state.update)
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        loadStatus(dispatch).then(() => {
+            setLoading(false);
+        });
+    }, [update]);
+
+    return loading ? (
+        <p>Loading...</p>
+    ) : (
         <Router>
             <main className="content">
                 <Routes>
@@ -23,6 +41,8 @@ export default function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                     <Route path="/logout" element={<Logout />} />
+                    <Route path="/email/verify" element={<VerifyEmail />} />
+                    <Route path="/profile" element={<Profile/>} />
                 </Routes>
                 <Footer/>
             </main>

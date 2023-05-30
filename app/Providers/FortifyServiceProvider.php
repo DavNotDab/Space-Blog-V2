@@ -15,7 +15,7 @@ use Laravel\Fortify\Fortify;
 class FortifyServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Register any application Services.
      */
     public function register(): void
     {
@@ -23,7 +23,7 @@ class FortifyServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Bootstrap any application Services.
      */
     public function boot(): void
     {
@@ -40,6 +40,10 @@ class FortifyServiceProvider extends ServiceProvider
 
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
+        });
+
+        Fortify::verifyEmailView(function () {
+            return view('space-blog');
         });
     }
 }

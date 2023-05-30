@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import {useNavigate} from "react-router-dom";
-import NavBar from "@/space-blog/components/NavBar";
+import NavBar from "./NavBar";
+import {useDispatch} from "react-redux";
+import loadStatus from "./ApiResources";
+import {setUpdate} from "../slices/UpdateSlice";
+
 
 export default function Login() {
 
@@ -11,15 +15,21 @@ export default function Login() {
     })
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSubmit = async (event) => {
 
         event.preventDefault();
 
         try {
-            const response = await axios.post('/login', values);
-            const response_data = response.data;
-            console.log(response_data);
+            await axios.post('/login', values);
+
+            await axios.get('/api/update-last-login');
+
+            await loadStatus(dispatch);
+
+            dispatch((setUpdate('logged')))
+
 
             navigate('/');
 

@@ -147,6 +147,13 @@ h3 {
         color: var(--dark-color);
     }
 }
+.email-confirmation-modal {
+    background: var(--dark-color);
+    color: var(--light-color);
+}
+.invalid-input {
+    border: 3px solid var(--accent-color);
+}
 // When the screen size increases, the font size will increase too
 @media (min-width: 2000px) {
     body {

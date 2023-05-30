@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate} from "react-router-dom";
 import NavBar from "./NavBar";
+import {useDispatch} from "react-redux";
+import loadStatus from "./ApiResources";
+import VerifyEmail from "./VerifyEmail";
 
 export default function Register() {
+
+    const [loading, setLoading] = useState(true);
 
     const [values, setValues] = useState({
         email: '',
@@ -12,18 +16,32 @@ export default function Register() {
         password_confirmation: ''
     })
 
-    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const handleSubmit = async (event) => {
+    const [fieldsValid, setFieldsValid] = useState(false);
 
-        event.preventDefault();
+    const showEmptyFields = () => {
+        // Takes all the fields from the document
+        const fields = [...document.querySelectorAll('input, select')];
+        // For every field, if it is empty, adds the class "empty" to it. Otherwise, removes it
+        fields.forEach(field => {
+            if (!verifyField(field)) field.classList.add('invalid-input');
+            else field.classList.remove('invalid-input');
+        });
+    }
+
+    const handleSubmit = async () => {
+
+        const activateModal = document.getElementById('activate-modal');
+        activateModal.click();
 
         try {
-            const response = await axios.post('/register', values);
-            const response_data = response.data;
-            console.log(response_data);
+            axios.post('/register', values).then(response => {
+                console.log(response.data)
+                setLoading(false);
+            });
 
-            navigate('/');
+            await loadStatus(dispatch);
 
         } catch (error) {
             switch (error.response.status) {
@@ -37,7 +55,41 @@ export default function Register() {
         }
     }
 
+    const verifyField = (field) => {
+        console.log(field.value, field.type)
+        if (field.value === '') return false;
+
+        else if (field.id === 'email') {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            console.log(regex.test(field.value));
+            return regex.test(field.value);
+        }
+        else if (field.id === 'password') {
+            const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+            console.log(regex.test(field.value));
+            return regex.test(field.value);
+        }
+        else if (field.id === 'password_confirmation') {
+            const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+            console.log(regex.test(field.value) && field.value === document.getElementById('password').value);
+            return regex.test(field.value) && field.value === document.getElementById('password').value;
+        }
+        return true;
+    }
+
     const handleChange = (event) => {
+
+        // Takes all the fields from the document and checks if they are all filled
+        const allFieldsValid = [...document.querySelectorAll('input, select')]
+            // For every field, stores in allFieldsValid true if the field is verified, false otherwise
+            .every(field => {
+                verifyField(field);
+                console.log( verifyField(field))
+            });
+        console.log(allFieldsValid)
+        // Sets the state to true if all fields are verified, false otherwise
+        setFieldsValid(allFieldsValid);
+
         setValues(previous_values => {
             return ({...previous_values,
                 [event.target.name]: event.target.value
@@ -52,7 +104,7 @@ export default function Register() {
             <div className={"container mt-5 mb-5"}>
                 <h1>Register</h1>
 
-                <form className={"pt-5 w-50 mx-auto tab-content"} action="/register" method="post" onSubmit={ handleSubmit }>
+                <div className={"pt-5 w-50 mx-auto tab-content"}>
 
                     <div className="form-input">
                         <label className={"form-label"} htmlFor="name">Name: </label>
@@ -78,10 +130,37 @@ export default function Register() {
                         <br/>
                     </div>
 
-                    <button className="btn form-button">Register</button>
+                    <button className="btn form-button"
+                            onClick={fieldsValid ? handleSubmit : showEmptyFields}>
+                        Register
+                    </button>
+                    <button id="activate-modal" hidden data-bs-toggle="modal" data-bs-target="#emailVerification"></button>
+                </div>
 
-                </form>
+            </div>
 
+            <div className="modal fade" id="emailVerification" tabIndex="-1" aria-labelledby="emailVerificationLabel" aria-hidden="true">
+                <div className="modal-dialog mt-5">
+                    <div className="modal-content email-confirmation-modal">
+                        <div className="modal-header border-0">
+                            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                <i className="bi bi-x-lg"></i></button>
+                        </div>
+                        <div className="modal-body">
+                            {loading ?
+
+                                <div className="Loading d-flex gap-3 align-items-center justify-content-center">
+                                    <span>Sending email...</span>
+                                    <div className="spinner-border" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                                :
+                                <VerifyEmail/>
+                            }
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     );

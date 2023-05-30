@@ -18,6 +18,11 @@ Route::get('/', function () {
     return view('space-blog');
 })->name('home');
 
+// Route for the login page when the user verifies his email
+Route::get('/login', function () {
+    return view('space-blog');
+})->name('login');
+
 Route::view('/{path?}', 'space-blog')
     ->where('path', '.*')
     ->name('react');

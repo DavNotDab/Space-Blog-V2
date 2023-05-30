@@ -1,20 +1,26 @@
 import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import loadStatus from "./ApiResources";
+import {setUpdate} from "../slices/UpdateSlice";
+import {useDispatch} from "react-redux";
 
 export default function Logout () {
 
     const navigate = useNavigate()
+    const dispatch = useDispatch();
 
-    const handleSubmit = async (event) => {
-
-        event.preventDefault();
+    const handleSubmit = async () => {
 
         try {
             const response = await axios.post('/logout');
             console.log(response.data)
 
             navigate('/')
+
+            await loadStatus(dispatch);
+
+            dispatch((setUpdate('not-logged')))
 
         } catch (error) {
             switch (error.response.status) {
@@ -30,9 +36,7 @@ export default function Logout () {
 
     return (
         <div>
-            <form action="/logout" method="POST"  onSubmit={ handleSubmit }>
-                <button>Logout</button>
-            </form>
+            <a href={"#"} onClick={handleSubmit}>Logout</a>
         </div>
     );
 

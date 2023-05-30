@@ -1,5 +1,6 @@
 import {Link} from "react-router-dom";
 import {useEffect} from "react";
+import UserMenu from "./UserMenu";
 
 export default function NavBar({page}) {
 
@@ -84,23 +85,9 @@ export default function NavBar({page}) {
                                         {/*<Link to={"/surprise"} className="surprise">Surprise me!</Link>*/}
                                     </div>
                                 </li>
-                                <li className="dropdown">
-                                    <div className="dropdown-icon">
-                                        <i className="bi bi-person" style={{fontSize: "28px"}}></i>
-                                    </div>
-                                    <ul className="dropdown-content">
-                                        <li>
-                                            <div className="nav-button">
-                                                <Link to={"/login"}>Login</Link>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div className="nav-button">
-                                                <Link to={"/register"}>Register</Link>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
+
+                                <UserMenu/>
+
                             </ul>
                         </div>
                     </div>
