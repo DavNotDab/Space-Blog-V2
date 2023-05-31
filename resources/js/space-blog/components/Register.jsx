@@ -21,6 +21,7 @@ export default function Register() {
     const [fieldsValid, setFieldsValid] = useState(false);
 
     const showEmptyFields = () => {
+        console.log(fieldsValid)
         // Takes all the fields from the document
         const fields = [...document.querySelectorAll('input, select')];
         // For every field, if it is empty, adds the class "empty" to it. Otherwise, removes it
@@ -56,37 +57,34 @@ export default function Register() {
     }
 
     const verifyField = (field) => {
-        console.log(field.value, field.type)
         if (field.value === '') return false;
 
         else if (field.id === 'email') {
             const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            console.log(regex.test(field.value));
             return regex.test(field.value);
         }
+
         else if (field.id === 'password') {
             const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-            console.log(regex.test(field.value));
             return regex.test(field.value);
         }
+
         else if (field.id === 'password_confirmation') {
             const regex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-            console.log(regex.test(field.value) && field.value === document.getElementById('password').value);
             return regex.test(field.value) && field.value === document.getElementById('password').value;
         }
+
         return true;
     }
 
     const handleChange = (event) => {
-
         // Takes all the fields from the document and checks if they are all filled
         const allFieldsValid = [...document.querySelectorAll('input, select')]
             // For every field, stores in allFieldsValid true if the field is verified, false otherwise
             .every(field => {
-                verifyField(field);
-                console.log( verifyField(field))
+                return verifyField(field);
             });
-        console.log(allFieldsValid)
+
         // Sets the state to true if all fields are verified, false otherwise
         setFieldsValid(allFieldsValid);
 

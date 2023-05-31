@@ -14,18 +14,20 @@ export default function UserMenu() {
                     <i className="bi bi-person" style={{fontSize: "28px"}}></i>
                     <i className="bi bi-chevron-down"></i>
                 </div>
-                <ul className="dropdown-content">
-                    <li>
-                        <div className="nav-button">
-                            <Link to={"/profile"}>Profile</Link>
-                        </div>
-                    </li>
-                    <li>
-                        <div className="nav-button">
-                            <Logout/>
-                        </div>
-                    </li>
-                </ul>
+                <div className="dropdown-content p-3">
+                    <ul className="p-4 d-flex flex-column gap-3">
+                        <li>
+                            <div className="nav-button">
+                                <Link to={"/profile"}>Profile</Link>
+                            </div>
+                        </li>
+                        <li>
+                            <div className="nav-button">
+                                <Logout/>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </li>
         );
     }
@@ -37,18 +39,20 @@ export default function UserMenu() {
                 <i className="bi bi-person" style={{fontSize: "28px"}}></i>
                 <i className="bi bi-chevron-down"></i>
             </div>
-            <ul className="dropdown-content">
-                <li>
-                    <div className="nav-button">
-                        <Link to={"/login"}>Login</Link>
-                    </div>
-                </li>
-                <li>
-                    <div className="nav-button">
-                        <Link to={"/register"}>Register</Link>
-                    </div>
-                </li>
-            </ul>
+            <div className="dropdown-content p-3">
+                <ul className="p-4 d-flex flex-column gap-3">
+                    <li>
+                        <div className="nav-button">
+                            <Link to={"/login"}>Login</Link>
+                        </div>
+                    </li>
+                    <li>
+                        <div className="nav-button">
+                            <Link to={"/register"}>Register</Link>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </li>
     );
 }

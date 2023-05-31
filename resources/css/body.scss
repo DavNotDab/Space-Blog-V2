@@ -154,6 +154,13 @@ h3 {
 .invalid-input {
     border: 3px solid var(--accent-color);
 }
+.verify-email-link {
+
+    a {
+        color: var(--accent-color);
+        font-size: 1.5rem;
+    }
+}
 // When the screen size increases, the font size will increase too
 @media (min-width: 2000px) {
     body {
