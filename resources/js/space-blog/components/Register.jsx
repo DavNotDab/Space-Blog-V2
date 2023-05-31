@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import {useDispatch} from "react-redux";
 import loadStatus from "./ApiResources";
 import VerifyEmail from "./VerifyEmail";
+import {Link} from "react-router-dom";
 
 export default function Register() {
 
@@ -99,10 +100,10 @@ export default function Register() {
         <>
             <NavBar page={"register"}/>
 
-            <div className={"container mt-5 mb-5"}>
+            <div className={"form-wrapper container mt-5"}>
                 <h1>Register</h1>
 
-                <div className={"pt-5 w-50 mx-auto tab-content"}>
+                <div className={"form-content pt-5 mx-auto tab-content"}>
 
                     <div className="form-input">
                         <label className={"form-label"} htmlFor="name">Name: </label>
@@ -133,6 +134,10 @@ export default function Register() {
                         Register
                     </button>
                     <button id="activate-modal" hidden data-bs-toggle="modal" data-bs-target="#emailVerification"></button>
+                </div>
+
+                <div className="text-center mt-3 nav-button already-registered-link">
+                    <Link to="/login">Already registered? Log in here!</Link>
                 </div>
 
             </div>

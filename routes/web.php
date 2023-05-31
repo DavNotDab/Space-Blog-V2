@@ -23,6 +23,11 @@ Route::get('/login', function () {
     return view('space-blog');
 })->name('login');
 
+// Route for the reset password page
+Route::get('/reset-password/{token}', function ($token) {
+    return view('space-blog', ['token' => $token]);
+})->name('password.reset');
+
 Route::view('/{path?}', 'space-blog')
     ->where('path', '.*')
     ->name('react');

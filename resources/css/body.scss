@@ -161,6 +161,36 @@ h3 {
         font-size: 1.5rem;
     }
 }
+.register-here-link, .already-registered-link, .send-recover-link {
+    a {
+        color: var(--accent-color);
+        text-transform: none;
+    }
+}
+.forgot-password-link {
+    a {
+        color: var(--light-color);
+        text-transform: none;
+        font-weight: normal;
+    }
+}
+.light {
+    color: var(--light-color);
+}
+.accent {
+    color: var(--accent-color);
+}
+.form-wrapper {
+    margin-bottom: 10vh;
+    width: 60%;
+
+    .form-content {
+        padding: 0 20%;
+    }
+}
+.reset-password-heading {
+    font-size: 1.5rem;
+}
 // When the screen size increases, the font size will increase too
 @media (min-width: 2000px) {
     body {
@@ -240,6 +270,9 @@ h3 {
     .gallery-nav {
         gap: 5rem;
     }
+    .form-wrapper {
+        width: 70%;
+    }
 }
 // Not only the font size will decrease, but also the width of the sections and the margins
 @media (max-width: 1050px) {
@@ -285,6 +318,9 @@ h3 {
     .about-content {
         font-size: 12px;
     }
+    .form-wrapper {
+        width: 80%;
+    }
 }
 @media (max-width: 800px) {
     .welcoming {
@@ -315,6 +351,9 @@ h3 {
         img {
             @include square(200px);
         }
+    }
+    .form-wrapper {
+        width: 90%;
     }
 }
 @media (max-width: 600px) {
@@ -369,6 +408,15 @@ h3 {
         button {
             font-size: 18px;
         }
+    }
+    .form-wrapper {
+        .form-content {
+            padding: 0 10%;
+        }
+    }
+    .modal-dialog {
+        width: 90%;
+        margin: auto;
     }
 }
 // If the screen size is below 450px, the video shown will be different

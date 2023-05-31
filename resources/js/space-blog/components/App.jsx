@@ -13,6 +13,7 @@ import {useEffect, useState} from "react";
 import loadStatus from "./ApiResources";
 import {useDispatch, useSelector} from "react-redux";
 import Profile from "./Profile";
+import ResetPassword from "./ResetPassword";
 
 export default function App() {
 
@@ -43,6 +44,7 @@ export default function App() {
                     <Route path="/logout" element={<Logout />} />
                     <Route path="/email/verify" element={<VerifyEmail />} />
                     <Route path="/profile" element={<Profile/>} />
+                    <Route path="/reset-password/:token?" element={<ResetPassword />} />
                 </Routes>
                 <Footer/>
             </main>
