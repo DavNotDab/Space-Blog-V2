@@ -191,6 +191,59 @@ h3 {
 .reset-password-heading {
     font-size: 1.5rem;
 }
+.gallery-image {
+    display: grid;
+    grid-template-rows: 90% 1fr;
+    padding: 0;
+    transition: 0.3s ease-in-out;
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(105%);
+
+        .image-info {
+            visibility: visible;
+            transform: translateY(0%);
+        }
+    }
+}
+.image-info {
+    background: rgba(0, 0, 0, 0.6);
+    color: var(--light-color);
+    font-weight: bold;
+    visibility: hidden;
+    display: flex;
+    transform: translateY(50%);
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    transition: all 0.3s ease-in-out;
+}
+.image-stats {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.scroll-up-button {
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    color: var(--light-color);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: 0.5s ease-in-out;
+    transform: translateY(200%);
+    visibility: hidden;
+
+    &:hover {
+        transform: scale(1.1);
+    }
+
+    &.active {
+        visibility: visible;
+        transform: translateY(0%);
+    }
+}
 // When the screen size increases, the font size will increase too
 @media (min-width: 2000px) {
     body {
@@ -310,7 +363,6 @@ h3 {
     .gallery-nav {
         gap: 1rem;
         max-width: 650px;
-        z-index: -1;
         button {
             margin: 0 1rem;
         }
@@ -435,8 +487,5 @@ h3 {
         p {
             font-size: 12px;
         }
-    }
-    .gallery-content {
-        padding: 0 10%;
     }
 }

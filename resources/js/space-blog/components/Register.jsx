@@ -147,7 +147,8 @@ export default function Register() {
                     <div className="modal-content email-confirmation-modal">
                         <div className="modal-header border-0">
                             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                                <i className="bi bi-x-lg"></i></button>
+                                <i className="bi bi-x-lg"></i>
+                            </button>
                         </div>
                         <div className="modal-body">
                             {loading ?
