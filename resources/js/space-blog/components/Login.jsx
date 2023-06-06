@@ -32,8 +32,8 @@ export default function Login() {
 
             dispatch((setUpdate('logged')))
 
-
             navigate('/');
+            scrollTo(0, 0);
 
         } catch (error) {
             switch (error.response.status) {
@@ -76,7 +76,7 @@ export default function Login() {
                     </div>
 
                     <div className="d-flex gap-3 align-items-center">
-                        <button className="btn border form-button">Login</button>
+                        <button className="btn form-button">Login</button>
                         <div className="nav-button forgot-password-link">
                             <a id="activate-modal" data-bs-toggle="modal" data-bs-target="#emailVerification">Forgot password?</a>
                         </div>

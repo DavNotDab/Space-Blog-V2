@@ -21,3 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/status', [UserController::class, 'status'])->name('api.status');
 Route::get('/update-last-login', [UserController::class, 'updateLastLogin'])->name('api.update.last.login');
+
+Route::post('/save-favorite-image', [UserController::class, 'saveFavoriteImage'])->name('api.save.favorite.image');
+Route::get('/get-user-favorite-images', [UserController::class, 'getFavoriteImages'])->name('api.get.user.favorite.images');

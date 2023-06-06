@@ -195,6 +195,7 @@ h3 {
     display: grid;
     grid-template-rows: 90% 1fr;
     padding: 0;
+    margin: auto;
     transition: 0.3s ease-in-out;
 
     &:hover {
@@ -213,6 +214,7 @@ h3 {
     font-weight: bold;
     visibility: hidden;
     display: flex;
+    width: auto;
     transform: translateY(50%);
     justify-content: space-between;
     align-items: center;
@@ -243,6 +245,45 @@ h3 {
         visibility: visible;
         transform: translateY(0%);
     }
+}
+.close-modal-button {
+    padding: 5px;
+    background: var(--dark-color);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    button {
+        float: right;
+        padding: 5px;
+    }
+}
+.modal-footer {
+    border: none;
+    background: var(--dark-color);
+    color: var(--light-color);
+    text-align: center;
+    justify-content: space-between;
+}
+.heart {
+    color: var(--accent-color);
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+    }
+}
+.login-or-register-modal {
+    background: var(--dark-color);
+    color: var(--light-color);
+    .modal-heading {
+        margin: 0 50px 50px;
+        text-align: center;
+    }
+    .modal-buttons {
+        display: flex;
+        justify-content: space-around;
+        margin: 0 20px 20px;
+    }
+
 }
 // When the screen size increases, the font size will increase too
 @media (min-width: 2000px) {
