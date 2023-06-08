@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 
 export default function Gallery() {
 
+    const [imagesGroups, setImagesGroups] = useState([[]]);
     const [images, setImages] = useState([]);
     const [favorites, setFavorites] = useState([]);
     const [page, setPage] = useState(1);
@@ -36,13 +37,14 @@ export default function Gallery() {
 
     const getImages = () => {
         try {
-            axios.get(`https://api.unsplash.com/search/photos?per_page=18&page=${page}&query=${query}`, {
+            axios.get(`https://api.unsplash.com/search/photos?per_page=28&page=${page}&query=${query}`, {
                 headers: {
                     Authorization: "Client-ID " + import.meta.env.VITE_UNSPLASH_ACCESS_KEY
                 }
             }).then(response => {
                 console.log(response.data.results)
                 setImages([...images, ...response.data.results]);
+                setImagesGroups([...imagesGroups, response.data.results]);
                 setPage(page + 1);
             });
         } catch (error) {
@@ -91,6 +93,7 @@ export default function Gallery() {
         setPage(1);
         setFavorites(favorites.splice(0, favorites.length));
         setImages(images.splice(0, images.length));
+        setImagesGroups(imagesGroups.splice(0, imagesGroups.length));
 
         getUserFavoriteImages();
         getImages();
@@ -115,14 +118,15 @@ export default function Gallery() {
                 </div>
 
                 <div className="container-fluid my-5 ">
-                    <InfiniteScroll
+                    <InfiniteScroll className="overflow-visible"
                         dataLength={images.length}
                         next={getImages}
                         hasMore={true}
                         loader={<img src="/assets/img/icons/loading.svg" alt="loading..."/>}
                         endMessage="No more images to load"
                     >
-                            <div className="row gallery-content">
+                        {imagesGroups.map((images, group_index) => (
+                            <div key={group_index} className="row gallery-content">
                                 {images.map((image, index) => (
                                     image ? (
                                         <div key={"image-" + index} className={"image-wrapper w-auto img" + (index + 1)}>
@@ -200,6 +204,7 @@ export default function Gallery() {
                                     )
                                 ))}
                             </div>
+                        ))}
                     </InfiniteScroll>
                 </div>
 
