@@ -23,4 +23,6 @@ Route::get('/status', [UserController::class, 'status'])->name('api.status');
 Route::get('/update-last-login', [UserController::class, 'updateLastLogin'])->name('api.update.last.login');
 
 Route::post('/save-favorite-image', [UserController::class, 'saveFavoriteImage'])->name('api.save.favorite.image');
+Route::post('/save-favorite-new', [UserController::class, 'saveFavoriteNew'])->name('api.save.favorite.new');
 Route::get('/get-user-favorite-images', [UserController::class, 'getFavoriteImages'])->name('api.get.user.favorite.images');
+Route::get('/get-user-favorite-news', [UserController::class, 'getFavoriteNews'])->name('api.get.user.favorite.news');

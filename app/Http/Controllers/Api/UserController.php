@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\FavoriteImage;
+use App\Models\FavoriteNew;
 use App\Models\User;
 use App\Services\UserStatusService;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -87,6 +88,54 @@ class UserController
 
         if ($user) {
             return FavoriteImage::where('user_id', $user->id)
+                ->get();
+        }
+
+        return false;
+    }
+
+    /**
+     * Stores the id of an new as favorite for the user.
+     */
+    public function saveFavoriteNew(Request $request)
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            // Check if the new has been already saved as favorite
+            $fav_new = FavoriteNew::where([
+                'user_id' => $user->id,
+                'new_id' => $request->new_id
+            ])
+                ->first();
+
+            // If it has not been saved, save it
+            if (!$fav_new) {
+                $fav_new = FavoriteNew::create([
+                    'user_id' => $user->id,
+                    'new_id' => $request->new_id
+                ]);
+            }
+            else {
+                // If it has been saved, delete it
+                $fav_new->delete();
+            }
+
+            return $fav_new;
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the news saved as favorite by the user.
+     */
+    public function getFavoriteNews()
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            return FavoriteNew::where('user_id', $user->id)
                 ->get();
         }
 

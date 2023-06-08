@@ -118,8 +118,16 @@ h3 {
 }
 .slider-img{
     max-width: 1000px;
-    max-height: 500px;
+    max-height: 450px;
     margin: auto;
+
+    @media (max-width: 991px) {
+        max-height: 400px;
+    }
+
+    @media (max-width: 767px) {
+        max-height: 300px;
+    }
 }
 .gallery-nav {
     gap: 7rem;
@@ -263,7 +271,7 @@ h3 {
     text-align: center;
     justify-content: space-between;
 }
-.heart {
+.heart, .fav-new {
     color: var(--accent-color);
 
     &:hover {
@@ -284,6 +292,16 @@ h3 {
         margin: 0 20px 20px;
     }
 
+}
+.new-title {
+
+    @media (max-width: 992px) {
+        font-size: 1.4rem!important;
+
+    }
+}
+.published-by {
+    font-size: 0.8rem;
 }
 // When the screen size increases, the font size will increase too
 @media (min-width: 2000px) {

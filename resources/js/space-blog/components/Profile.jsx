@@ -2,12 +2,15 @@ import {useSelector} from "react-redux";
 import NavBar from "./NavBar";
 import axios from "axios";
 import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 
 
 export default function Profile() {
 
     const user = useSelector((state) => state.user);
     const [images, setImages] = useState([]);
+
+    const navigate = useNavigate();
 
     const getUserFavoriteImagesId = async () => {
         try {
@@ -43,6 +46,10 @@ export default function Profile() {
     }
 
     useEffect(() => {
+        if (!user) {
+            navigate('/login')
+        }
+
         getUserFavoriteImagesId();
     }, []);
 
@@ -52,28 +59,41 @@ export default function Profile() {
             <NavBar/>
 
             <main className="container d-flex flex-column justify-content-center mb-5">
-                <div className="container text-center p-2 mt-3">
-                    <h1>User Profile</h1>
-                </div>
+                {user ? (
+                    <>
+                        <div className="container text-center p-2 mt-3">
+                            <h1>User Profile</h1>
+                        </div>
 
-                <div className="container text-center p-2 mt-2">
-                    <h3>User: {user.name}</h3>
-                    <h3>Email: {user.email}</h3>
-                </div>
+                        <div className="container text-center p-2 mt-2">
+                            <h3>User: {user.name}</h3>
+                            <h3>Email: {user.email}</h3>
+                        </div>
 
-                <div className="container text-center p-2 mt-2">
-                    <h3>Favorite Images</h3>
-                    <div className="row gallery-content mt-5">
-                        {images.map(image => (
-                            <div key={image.id} className="gallery-image"
-                                 style={{backgroundImage: `url(${image.urls.raw + "&fit=crop&w=350&h=350"})`, backgroundRepeat: 'no-repeat'}}>
-                                <div className="image-description">
-                                    <img hidden alt={image.description}/>
-                                </div>
+                        <div className="container text-center p-2 mt-2">
+                            <h3>Favorite Images</h3>
+                            <div className="row profile-gallery-content mt-5">
+                                { images.length ? (
+                                    images.map(image => (
+                                        <div key={image.id} className="profile-gallery-image"
+                                             style={{backgroundImage: `url(${image.urls.raw + "&fit=crop&w=200&h=200"})`, backgroundRepeat: 'no-repeat'}}>
+                                            <div className="image-description">
+                                                <img hidden alt={image.description}/>
+                                            </div>
+                                        </div>
+                                    ))) : (
+                                    <div className="container text-center p-2 mt-3">
+                                        <h1>You don't have any favorite images</h1>
+                                    </div>
+                                )}
                             </div>
-                        ))}
+                        </div>
+                    </>
+                ) : (
+                    <div className="container text-center p-2 mt-3">
+                        <h1>You are not logged in</h1>
                     </div>
-                </div>
+                )}
             </main>
         </>
     );

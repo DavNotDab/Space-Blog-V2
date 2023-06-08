@@ -2,11 +2,53 @@ import NavBar from "./NavBar";
 import React, {useEffect, useState} from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 export default function News() {
 
     const [news, setNews] = useState([]);
     const [startAt, setStartAt] = useState(0);
+    const [favorites, setFavorites] = useState([]);
+
+    if (window) {
+        window.onscroll = () => {
+            document.getElementsByClassName("scroll-up-button")[0]?.classList.toggle("active", window.scrollY > 500);
+        };
+    }
+
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    const getUserFavoriteNews = () => {
+        try {
+            axios.get('/api/get-user-favorite-news').then(response => {
+                if (response.data) {
+                    const favorites = response.data.map(favorite => favorite.new_id);
+                    setFavorites(favorites);
+                    console.log(favorites)
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const saveNewAsFavorite = (new_id) => {
+        try {
+            axios.post('/api/save-favorite-new', {new_id: new_id}).then(response => {
+                if (!response.data) {
+                    const modal_button = document.getElementById("login-or-register-button");
+                    modal_button.click();
+                }
+                else {
+                    getUserFavoriteNews();
+                }
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     const getNews = async () => {
         try {
@@ -21,8 +63,10 @@ export default function News() {
 
     useEffect(() => {
         setStartAt(0)
+        setFavorites(favorites.splice(0, favorites.length));
         setNews(news.splice(0, news.length));
 
+        getUserFavoriteNews();
         getNews();
     }, []);
 
@@ -84,7 +128,7 @@ export default function News() {
                     </button>
                 </div>
 
-                <div className="">
+                <div className="mt-5">
 
                     <InfiniteScroll
                         dataLength={news.length}
@@ -96,16 +140,16 @@ export default function News() {
                         <div className="container d-flex flex-column gap-3">
                             { news ?
                                 news.map(notice => (
-                                    <div key={notice.id} className="container py-sm-5">
+                                    <div key={notice.id} className="container py-5">
                                         <div className="card mb-3 m-4" style={{background: "none"}}>
                                             <div className="row g-5 align-items-center">
                                                 <div className="col-md-4 mt-0 d-flex align-items-center justify-content-center">
                                                     <img src={notice.imageUrl}
                                                          alt="Image of the new" className="img-fluid"/>
                                                 </div>
-                                                <div className="col-md-8 mt-0">
-                                                    <div className="card-body px-4">
-                                                        <h5 className="card-title text-center fw-bold fs-3" style={{letterSpacing: 1}}>
+                                                <div className="col-md-8 mt-0 p-3">
+                                                    <div className="card-body p-0">
+                                                        <h5 className="new-title card-title text-center fw-bold fs-3" style={{letterSpacing: 1}}>
                                                             {notice.title}
                                                         </h5>
                                                         <span className="new-date">
@@ -114,11 +158,35 @@ export default function News() {
                                                         <h6 className="card-subtitle my-3">
                                                             {notice.summary}
                                                         </h6>
-                                                        <p className="card-text fs-6 entry-readFullArticle">
-                                                            <a href={notice.url} target="_blank" rel="noreferrer">
-                                                                Read more
-                                                            </a>
-                                                        </p>
+                                                        <div className="card-footer d-flex justify-content-around">
+                                                            <p className="card-text entry-readFullArticle me-5 mb-0">
+                                                                <a href={notice.url} target="_blank" rel="noreferrer">
+                                                                    Read more
+                                                                </a>
+                                                            </p>
+                                                            <p className="card-text entry-author d-flex align-items-center gap-4">
+                                                                <small>
+                                                                    <span className="published-by">Published by: &nbsp;</span>
+                                                                    { notice.newsSite}
+                                                                </small>
+                                                                <span className="fav-new" onClick={() => saveNewAsFavorite(notice.id)}>
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                         width="16" height="16"
+                                                                         fill="#DB9562"
+                                                                         className="bi bi-star-fill"
+                                                                         viewBox="0 0 16 16">
+                                                                        {
+                                                                            favorites.includes(notice.id.toString()) ? (
+                                                                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                                                                            ) : (
+                                                                                <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                                                                            )
+                                                                        }
+                                                                    </svg>
+                                                                </span>
+
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -164,6 +232,35 @@ export default function News() {
                                             </small>
                                         </p>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="scroll-up-button">
+                    <button onClick={scrollToTop} id="scrollToTopBtn" >
+                        <i className="bi bi-chevron-up"></i>
+                    </button>
+                </div>
+
+                <button id="login-or-register-button" data-bs-toggle="modal" data-bs-target="#login-or-register-modal"></button>
+
+                <div className="modal fade" id="login-or-register-modal" tabIndex="-1" aria-labelledby="login-or-register-modal-label" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content login-or-register-modal">
+                            <div className="close-modal-button">
+                                <button type="button" className="btn-close btn-close-white"
+                                        data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div className="modal-body p-1" data-bs-dismiss="modal" aria-label="Close">
+                                <div className="modal-heading">
+                                    <h4>You need to be logged in to add news as favorites</h4>
+                                </div>
+                                <div className="modal-buttons">
+                                    <Link to="/login" className="btn form-button"> Login </Link>
+                                    <Link to="/register" className="btn form-button"> Register </Link>
                                 </div>
                             </div>
                         </div>
