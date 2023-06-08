@@ -35,9 +35,7 @@ export default function Logout () {
     }
 
     return (
-        <div>
-            <a href={"#"} onClick={handleSubmit}>Logout</a>
-        </div>
+        <a href={"#"} onClick={handleSubmit}>Logout</a>
     );
 
 }

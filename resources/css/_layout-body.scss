@@ -56,7 +56,6 @@
 .gallery-content {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(8, 1fr);
     grid-gap: 20px;
 
     .image-wrapper {
@@ -68,11 +67,6 @@
             width: 350px;
             height: 350px;
         }
-    }
-
-
-    .img1 {
-        grid-area: 1 / 1 / 2 / 2;
     }
 
     .img2 {
@@ -155,7 +149,7 @@
     .img15 {
         grid-area: 8 / 1 / 9 / 2;
     }
-    // Seria 2 2 3 3 -> sumar 6 a primero y tercero
+
     .img16 {
         grid-area: 8 / 2 / 9 / 3;
     }
@@ -226,31 +220,170 @@
     }
 
     @media (max-width: 1200px) {
-        grid-template-columns: repeat(2, 1fr);
-        /*.img2 {
-            grid-column: 1 / 3;
-            grid-row: 3;
+        grid-template-columns: repeat(2, 50%);
+        margin: 0 10%;
+
+        .img2 {
+            grid-area: 2 / 1 / 3 / 3;
+
+            .gallery-image {
+                width: 750px;
+            }
         }
+
         .img3 {
-            grid-column: 2;
-            grid-row: 1 / 3;
+            grid-area: 1 / 2 / 2 / 3;
         }
+
         .img4 {
-            grid-column: 1;
-            grid-row: 2;
+            grid-area: 3 / 1 / 4 / 2;
         }
+
         .img5 {
-            grid-column: 1;
-            grid-row: 6;
+            grid-area: 3 / 2 / 5 / 3;
+
+            .gallery-image {
+                height: 750px;
+            }
         }
+
         .img6 {
-            grid-column: 2;
-            grid-row: 6;
+            grid-area: 4 / 1 / 5 / 2;
+
+            .gallery-image {
+                width: 350px;
+            }
         }
+
         .img7 {
-            grid-column: 1 / 3;
-            grid-row: 4 / 6;
-        }*/
+            grid-area: 5 / 1 / 6 / 2;
+        }
+
+        .img8 {
+            grid-area: 5 / 2 / 6 / 3;
+        }
+
+        .img9 {
+            grid-area: 6 / 1 / 7 / 3;
+
+        }
+
+        .img10 {
+            grid-area: 7 / 1 / 9 / 3;
+
+            .gallery-image {
+                width: 750px;
+                height: 750px;
+            }
+        }
+
+        .img11 {
+            grid-area: 9 / 1 / 10 / 2;
+
+            .gallery-image {
+                width: 350px;
+                height: 350px;
+            }
+        }
+
+        .img12 {
+            grid-area: 9 / 2 / 10 / 3;
+        }
+
+        .img13 {
+            grid-area: 10 / 2 / 11 / 3;
+        }
+
+        .img14 {
+            grid-area: 10 / 1 / 12 / 2;
+
+            .gallery-image {
+                height: 750px;
+            }
+        }
+
+        .img15 {
+            grid-area: 11 / 2 / 12 / 3;
+        }
+
+        .img16 {
+            grid-area: 12 / 1 / 13 / 2;
+        }
+
+        .img17 {
+            grid-area: 12 / 2 / 13 / 3;
+        }
+
+        .img18 {
+            grid-area: 13 / 1 / 14 / 2;
+
+            .gallery-image {
+                height: 350px;
+            }
+        }
+
+        .img19 {
+            grid-area: 13 / 2 / 14 / 3;
+        }
+
+        .img20 {
+            grid-area: 14 / 2 / 16 / 3;
+
+            .gallery-image {
+                height: 750px;
+            }
+        }
+
+        .img21 {
+            grid-area: 14 / 1 / 15 / 2;
+        }
+
+        .img22 {
+            grid-area: 15 / 1 / 17 / 2;
+
+            .gallery-image {
+                height: 750px;
+            }
+        }
+
+        .img23 {
+            grid-area: 16 / 2 / 17 / 3;
+        }
+
+        .img24 {
+            grid-area: 17 / 1 / 18 / 2;
+        }
+
+        .img25 {
+            grid-area: 17 / 2 / 18 / 3;
+
+            .gallery-image {
+                width: 350px;
+            }
+        }
+
+        .img26 {
+            grid-area: 18 / 1 / 19 / 2;
+        }
+
+        .img27 {
+            grid-area: 18 / 2 / 19 / 3;
+
+            .gallery-image {
+                height: 350px;
+                width: 350px;
+            }
+        }
+
+        .img28 {
+            grid-area: 19 / 1 / 21 / 3;
+
+            .gallery-image {
+                height: 750px;
+                width: 750px;
+            }
+        }
+
     }
     @media (max-width: 992px) {
         .gallery-image {
@@ -262,11 +395,17 @@
     @media (max-width: 780px) {
         display: flex;
         justify-content: center;
+        gap: 50px;
 
-        .gallery-image {
-            width: 350px;
-            height: 350px;
+        .img2, .img5, .img9, .img10, .img14, .img20, .img22, .img28 {
+
+            .gallery-image {
+                width: 350px;
+                height: 350px;
+            }
+
         }
+
     }
 }
 // Positioning for the body of the about page
@@ -275,3 +414,23 @@
     justify-content: space-between;
     min-height: 100vh;
 }
+.profile-content {
+    margin-bottom: 100px;
+}
+.profile-menu {
+    position: absolute;
+    left: 0;
+    top: 80px;
+    width: 25%;
+}
+.profile-gallery-content {
+    margin: auto;
+    gap: 20px;
+    justify-content: center;
+
+    .profile-gallery-image {
+        width: 350px;
+        height: 350px;
+    }
+}
+

@@ -1,14 +1,17 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import NavBar from "./NavBar";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import loadStatus from "./ApiResources";
 import VerifyEmail from "./VerifyEmail";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 export default function Register() {
 
     const [loading, setLoading] = useState(true);
+    const user = useSelector((state) => state.user);
+
+    const navigate = useNavigate();
 
     const [values, setValues] = useState({
         email: '',
@@ -96,9 +99,15 @@ export default function Register() {
         });
     }
 
+    useEffect(() => {
+        if (user) {
+            navigate('/');
+        }
+    }, [user])
+
     return (
         <>
-            <NavBar page={"register"}/>
+            <NavBar page={'register'}/>
 
             <div className={"form-wrapper container mt-5"}>
                 <h1>Register</h1>

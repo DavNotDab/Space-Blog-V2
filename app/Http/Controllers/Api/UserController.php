@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Lib\Email;
 use App\Models\FavoriteImage;
 use App\Models\FavoriteNew;
+use App\Models\Subscription;
 use App\Models\User;
 use App\Services\UserStatusService;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -97,7 +99,7 @@ class UserController
     /**
      * Stores the id of an new as favorite for the user.
      */
-    public function saveFavoriteNew(Request $request)
+    public function saveFavoriteNew(Request $request): bool|array
     {
         $user = Auth::user();
 
@@ -119,9 +121,11 @@ class UserController
             else {
                 // If it has been saved, delete it
                 $fav_new->delete();
+
+                return [$fav_new, false];
             }
 
-            return $fav_new;
+            return [$fav_new, $this->subscribeToPublisher($request->publisher)];
         }
 
         return false;
@@ -141,4 +145,98 @@ class UserController
 
         return false;
     }
+
+    /**
+     * Subscribes the user to the publisher.
+     */
+    public function subscribeToPublisher(string $publisher): bool
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            $user = User::find($user->id);
+
+            $publishers = $this->getUserSubscriptions()->pluck('publisher')->toArray();
+
+            if (!in_array($publisher, $publishers)) {
+                $subscription = new Subscription();
+                $subscription->user_id = $user->id;
+                $subscription->publisher = $publisher;
+                $subscription->save();
+
+                $this->sendSubscriptionEmail($publisher);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Get all the publishers the user is subscribed to.
+     */
+    public function getUserSubscriptions()
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            return Subscription::where([
+                'user_id' => $user->id
+            ])
+                ->get();
+        }
+
+        return false;
+    }
+
+    /**
+     * Sends an email to the user with the subscription information.
+     */
+    public function sendSubscriptionEmail($publisher): bool
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            $user = User::find($user->id);
+
+            $mailer = new Email($user, $publisher);
+            $mailer->sendSubscriptionConfirmation();
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Toggle the user's subscription to a publisher.
+     */
+    public function toggleSubscription(Request $request): bool
+{
+        $user = Auth::user();
+
+        if ($user) {
+            $user = User::find($user->id);
+
+            $subscription = Subscription::where([
+                'user_id' => $user->id,
+                'publisher' => $request->publisher
+            ])
+                ->first();
+
+            if ($subscription) {
+                $subscription->active = !$subscription->active;
+                $subscription->save();
+
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
 }

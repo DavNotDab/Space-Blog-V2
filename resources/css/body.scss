@@ -155,7 +155,7 @@ h3 {
         color: var(--dark-color);
     }
 }
-.email-confirmation-modal {
+.email-confirmation-modal, .subscription-modal {
     background: var(--dark-color);
     color: var(--light-color);
 }
@@ -199,7 +199,7 @@ h3 {
 .reset-password-heading {
     font-size: 1.5rem;
 }
-.gallery-image {
+.gallery-image, .profile-gallery-image {
     display: grid;
     grid-template-rows: 90% 1fr;
     padding: 0;
@@ -302,6 +302,21 @@ h3 {
 }
 .published-by {
     font-size: 0.8rem;
+}
+.nav-link {
+    color: var(--light-color);
+    border: none;
+
+    &.active {
+        color: var(--accent-color) !important;
+        background-color: transparent !important;
+        border: 1px solid var(--light-color) ;
+    }
+
+    &:hover {
+        color: var(--accent-color);
+        border: none;
+    }
 }
 // When the screen size increases, the font size will increase too
 @media (min-width: 2000px) {

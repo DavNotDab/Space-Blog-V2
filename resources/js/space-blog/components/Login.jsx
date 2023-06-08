@@ -57,7 +57,7 @@ export default function Login() {
 
     return (
         <>
-            <NavBar page={"register"}/>
+            <NavBar page={'login'}/>
 
             <div className={"form-wrapper container-xl mt-5"} style={{marginBottom: "25vh"}}>
                 <h1>Login</h1>

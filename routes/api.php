@@ -26,3 +26,7 @@ Route::post('/save-favorite-image', [UserController::class, 'saveFavoriteImage']
 Route::post('/save-favorite-new', [UserController::class, 'saveFavoriteNew'])->name('api.save.favorite.new');
 Route::get('/get-user-favorite-images', [UserController::class, 'getFavoriteImages'])->name('api.get.user.favorite.images');
 Route::get('/get-user-favorite-news', [UserController::class, 'getFavoriteNews'])->name('api.get.user.favorite.news');
+
+Route::get('/get-user-subscriptions', [UserController::class, 'getUserSubscriptions'])->name('api.get.user.subscriptions');
+Route::post('/toggle-subscription', [UserController::class, 'toggleSubscription'])->name('api.toggle.subscription');
+Route::post('/send-subscription-email', [UserController::class, 'sendSubscriptionEmail'])->name('api.send.subscription.email');

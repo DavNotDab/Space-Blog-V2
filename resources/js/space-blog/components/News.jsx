@@ -9,6 +9,7 @@ export default function News() {
     const [news, setNews] = useState([]);
     const [startAt, setStartAt] = useState(0);
     const [favorites, setFavorites] = useState([]);
+    const [publisher, setPublisher] = useState(null);
 
     if (window) {
         window.onscroll = () => {
@@ -34,17 +35,29 @@ export default function News() {
         }
     }
 
-    const saveNewAsFavorite = (new_id) => {
+    const saveNewAsFavorite = (new_id, publisher) => {
         try {
-            axios.post('/api/save-favorite-new', {new_id: new_id}).then(response => {
-                if (!response.data) {
-                    const modal_button = document.getElementById("login-or-register-button");
-                    modal_button.click();
-                }
-                else {
-                    getUserFavoriteNews();
-                }
-            });
+            axios.post('/api/save-favorite-new', {
+                new_id: new_id,
+                publisher: publisher
+            })
+                .then(response => {
+                    if (!response.data) {
+                        const modal_button = document.getElementById("login-or-register-button");
+                        modal_button.click();
+                    }
+                    else {
+                        getUserFavoriteNews();
+
+                        if (response.data[1] !== false) {
+                            setPublisher(publisher);
+
+                            const modal_button = document.getElementById("subscription-button");
+                            modal_button.click();
+                        }
+                    }
+                });
+
         } catch (error) {
             console.log(error);
         }
@@ -128,6 +141,49 @@ export default function News() {
                     </button>
                 </div>
 
+                <div className="modal fade" id="login-or-register-modal" tabIndex="-1" aria-labelledby="login-or-register-modal-label" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content login-or-register-modal">
+                            <div className="close-modal-button">
+                                <button type="button" className="btn-close btn-close-white"
+                                        data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div className="modal-body p-1" data-bs-dismiss="modal" aria-label="Close">
+                                <div className="modal-heading">
+                                    <h4>You need to be logged in to add news as favorites</h4>
+                                </div>
+                                <div className="modal-buttons">
+                                    <Link to="/login" className="btn form-button"> Login </Link>
+                                    <Link to="/register" className="btn form-button"> Register </Link>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="subscription-button" data-bs-toggle="modal" data-bs-target="#subscription-modal"></button>
+
+                <div className="modal fade" id="subscription-modal" tabIndex="-1" aria-labelledby="subscription-modal-label" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content subscription-modal">
+                            <div className="close-modal-button">
+                                <button type="button" className="btn-close btn-close-white"
+                                        data-bs-dismiss="modal" aria-label="Close">
+                                </button>
+                            </div>
+                            <div className="modal-body p-1" data-bs-dismiss="modal" aria-label="Close">
+                                <div className="modal-heading container text-center">
+                                    <h4>You successfully subscribed to the publisher {publisher}!</h4>
+                                </div>
+                                <div className="container mt-3 text-center">
+                                    <h6>An email was sent to you with the confirmation of this subscription</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div className="mt-5">
 
                     <InfiniteScroll
@@ -169,7 +225,7 @@ export default function News() {
                                                                     <span className="published-by">Published by: &nbsp;</span>
                                                                     { notice.newsSite}
                                                                 </small>
-                                                                <span className="fav-new" onClick={() => saveNewAsFavorite(notice.id)}>
+                                                                <span className="fav-new" onClick={() => saveNewAsFavorite(notice.id, notice.newsSite)}>
                                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                                          width="16" height="16"
                                                                          fill="#DB9562"
@@ -184,7 +240,6 @@ export default function News() {
                                                                         }
                                                                     </svg>
                                                                 </span>
-
                                                             </p>
                                                         </div>
                                                     </div>
@@ -246,26 +301,6 @@ export default function News() {
 
                 <button id="login-or-register-button" data-bs-toggle="modal" data-bs-target="#login-or-register-modal"></button>
 
-                <div className="modal fade" id="login-or-register-modal" tabIndex="-1" aria-labelledby="login-or-register-modal-label" aria-hidden="true">
-                    <div className="modal-dialog modal-dialog-centered">
-                        <div className="modal-content login-or-register-modal">
-                            <div className="close-modal-button">
-                                <button type="button" className="btn-close btn-close-white"
-                                        data-bs-dismiss="modal" aria-label="Close">
-                                </button>
-                            </div>
-                            <div className="modal-body p-1" data-bs-dismiss="modal" aria-label="Close">
-                                <div className="modal-heading">
-                                    <h4>You need to be logged in to add news as favorites</h4>
-                                </div>
-                                <div className="modal-buttons">
-                                    <Link to="/login" className="btn form-button"> Login </Link>
-                                    <Link to="/register" className="btn form-button"> Register </Link>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </main>
         </>
     );

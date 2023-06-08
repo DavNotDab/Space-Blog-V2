@@ -10,7 +10,7 @@ export default function Gallery() {
     const [images, setImages] = useState([]);
     const [favorites, setFavorites] = useState([]);
     const [page, setPage] = useState(1);
-    const [query, setQuery] = useState('planets');
+    const [query, setQuery] = useState('space');
 
     if (window) {
         window.onscroll = () => {
@@ -69,22 +69,44 @@ export default function Gallery() {
     }
 
     const calculateSize = (index) => {
-        switch (index % 28) {
-            case 2:
-            case 6:
-            case 9:
-            case 25:
-                return "&fit=crop&w=750&h=350"
-            case 5:
-            case 14:
-            case 18:
-            case 20:
-                return "&fit=crop&w=350&h=750"
-            case 11:
-            case 27:
-                return "&fit=crop&w=750&h=750"
-            default:
-                return "&fit=crop&w=350&h=350"
+        if (window.innerWidth > 1200) {
+            switch (index % 28) {
+                case 2:
+                case 6:
+                case 9:
+                case 25:
+                    return "&fit=crop&w=750&h=350"
+                case 5:
+                case 14:
+                case 18:
+                case 20:
+                    return "&fit=crop&w=350&h=750"
+                case 11:
+                case 27:
+                    return "&fit=crop&w=750&h=750"
+                default:
+                    return "&fit=crop&w=350&h=350"
+            }
+        }
+        else if (window.innerWidth > 780) {
+            switch (index % 28) {
+                case 2:
+                case 9:
+                    return "&fit=crop&w=750&h=350"
+                case 5:
+                case 14:
+                case 20:
+                case 22:
+                    return "&fit=crop&w=350&h=750"
+                case 10:
+                case 0:
+                    return "&fit=crop&w=750&h=750"
+                default:
+                    return "&fit=crop&w=350&h=350"
+            }
+        }
+        else {
+            return "&fit=crop&w=350&h=350";
         }
 
     }

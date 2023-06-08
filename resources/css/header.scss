@@ -113,7 +113,7 @@
 }
 .nav-button {
     padding: 0 20px;
-    a {
+    > a {
         color: var(--light-color)
     }
     // The nav buttons will have a gradient background with an animation when hovering, to make them look like underlined text

@@ -1,8 +1,10 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {useEffect} from "react";
 import UserMenu from "./UserMenu";
 
 export default function NavBar({page}) {
+
+    const navigate = useNavigate();
 
     function toggleMenu() {
         const menuBtn = document.querySelector('.menu-btn');
@@ -36,6 +38,17 @@ export default function NavBar({page}) {
     }, []);
 
 
+    function randomPath() {
+        const paths = [
+            '/',
+            '/gallery',
+            '/news',
+            '/about',
+            '/profile'
+        ];
+
+        navigate(paths[Math.floor(Math.random() * paths.length)]);
+    }
 
     return (
         <header>
@@ -81,8 +94,7 @@ export default function NavBar({page}) {
                                 </li>
                                 <li>
                                     <div className="nav-button">
-                                        <button className="surprise" /* TODO onClick="randomPath()" */>Surprise me!</button>
-                                        {/*<Link to={"/surprise"} className="surprise">Surprise me!</Link>*/}
+                                        <button className="surprise" onClick={randomPath}>Surprise me!</button>
                                     </div>
                                 </li>
 
