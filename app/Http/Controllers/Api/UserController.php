@@ -213,7 +213,7 @@ class UserController
      * Toggle the user's subscription to a publisher.
      */
     public function toggleSubscription(Request $request): bool
-{
+    {
         $user = Auth::user();
 
         if ($user) {
@@ -234,6 +234,51 @@ class UserController
             else {
                 return false;
             }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the user's information.
+     */
+    public function getUserInfo(): bool|array
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            $user->hasRole('reader') ? $role = 'reader' : $role = 'writer';
+
+            $user = User::find($user->id);
+
+            return [
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $role,
+                'last_login' => $user->last_login
+            ];
+        }
+
+        return false;
+    }
+
+    /**
+     * Sets the user's role to writer.
+     */
+    public function setWriterRole(): bool
+    {
+        $user = Auth::user();
+
+        if ($user) {
+            $user = User::find($user->id);
+
+            $user->removeRole('reader');
+            $user->assignRole('writer');
+
+            $email = new Email($user, "null");
+            $email->sendUpgradeEmail();
+
+            return true;
         }
 
         return false;

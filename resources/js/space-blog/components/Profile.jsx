@@ -10,7 +10,6 @@ export default function Profile() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        console.log(user)
 
         if (!user) {
             navigate('/login')
@@ -24,9 +23,8 @@ export default function Profile() {
             <main className="container d-flex flex-column justify-content-center profile-content">
                 {user ? (
                     <>
-                        <div className="container text-center d-flex flex-row align-items-center justify-content-around p-2 my-3">
+                        <div className="container text-center p-2 my-3">
                             <h1>User Profile</h1>
-                            <h3>{user.name}</h3>
                         </div>
 
                         <ProfileMenu/>

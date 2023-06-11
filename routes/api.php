@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/get-user-info', [UserController::class, 'getUserInfo'])->name('api.get.user.info');
+
 Route::get('/status', [UserController::class, 'status'])->name('api.status');
 Route::get('/update-last-login', [UserController::class, 'updateLastLogin'])->name('api.update.last.login');
 
@@ -29,4 +32,7 @@ Route::get('/get-user-favorite-news', [UserController::class, 'getFavoriteNews']
 
 Route::get('/get-user-subscriptions', [UserController::class, 'getUserSubscriptions'])->name('api.get.user.subscriptions');
 Route::post('/toggle-subscription', [UserController::class, 'toggleSubscription'])->name('api.toggle.subscription');
-Route::post('/send-subscription-email', [UserController::class, 'sendSubscriptionEmail'])->name('api.send.subscription.email');
+
+Route::get('/set-writer-role', [UserController::class, 'setWriterRole'])->name('api.set.writer.role');
+Route::post('/save-article', [ArticleController::class, 'saveArticle'])->name('api.save.article');
+Route::get('/get-articles', [ArticleController::class, 'index'])->name('api.get.articles');

@@ -14,6 +14,7 @@ import loadStatus from "./ApiResources";
 import {useDispatch, useSelector} from "react-redux";
 import Profile from "./Profile";
 import ResetPassword from "./ResetPassword";
+import AddArticle from "./AddArticle";
 
 export default function App() {
 
@@ -45,6 +46,8 @@ export default function App() {
                     <Route path="/email/verify" element={<VerifyEmail />} />
                     <Route path="/profile" element={<Profile/>} />
                     <Route path="/reset-password/:token?" element={<ResetPassword />} />
+                    <Route path="/add-article" element={<AddArticle/>} />
+                    <Route path="*" element={<h1>Not found</h1>} />
                 </Routes>
                 <Footer/>
             </main>

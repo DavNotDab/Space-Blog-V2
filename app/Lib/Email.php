@@ -9,30 +9,31 @@ class Email
     private string $email;
     private string $username;
     private string $publisher;
+    private PHPMailer $phpmailer;
 
     public function __construct(User $user, string $publisher) {
         $this->email = $user->email;
         $this->username = $user->name;
         $this->publisher = $publisher;
+
+        $this->phpmailer = new PHPMailer();
+        $this->phpmailer->isSMTP();
+        $this->phpmailer->Host = $_ENV['MAIL_HOST'];
+        $this->phpmailer->SMTPAuth = true;
+        $this->phpmailer->Port = $_ENV['MAIL_PORT'];
+        $this->phpmailer->Username = $_ENV['MAIL_USERNAME'];
+        $this->phpmailer->Password = $_ENV['MAIL_PASSWORD'];
     }
 
     public function sendSubscriptionConfirmation(): void
     {
-        $phpmailer = new PHPMailer();
-        $phpmailer->isSMTP();
-        $phpmailer->Host = $_ENV['MAIL_HOST'];
-        $phpmailer->SMTPAuth = true;
-        $phpmailer->Port = $_ENV['MAIL_PORT'];
-        $phpmailer->Username = $_ENV['MAIL_USERNAME'];
-        $phpmailer->Password = $_ENV['MAIL_PASSWORD'];
-
         try {
-            $phpmailer->setFrom($_ENV['MAIL_FROM_ADDRESS']);
-            $phpmailer->addAddress($this->email);
-            $phpmailer->Subject = 'New subscription';
+            $this->phpmailer->setFrom($_ENV['MAIL_FROM_ADDRESS']);
+            $this->phpmailer->addAddress($this->email);
+            $this->phpmailer->Subject = 'New subscription';
 
-            $phpmailer->isHTML();
-            $phpmailer->CharSet = 'UTF-8';
+            $this->phpmailer->isHTML();
+            $this->phpmailer->CharSet = 'UTF-8';
 
             $content = '<html lang="en">
             <head>
@@ -62,32 +63,24 @@ class Email
             </body>
         </html>';
 
-            $phpmailer->Body = $content;
-            $phpmailer->send();
+            $this->phpmailer->Body = $content;
+            $this->phpmailer->send();
         }
         catch (Exception) {
-            echo 'Could not sent the message: ' . $phpmailer->ErrorInfo;
+            echo 'Could not sent the message: ' . $this->phpmailer->ErrorInfo;
             var_dump($this->email); die();
         }
     }
 
     public function sendNewNoticeNotification(): void
     {
-        $phpmailer = new PHPMailer();
-        $phpmailer->isSMTP();
-        $phpmailer->Host = $_ENV['MAIL_HOST'];
-        $phpmailer->SMTPAuth = true;
-        $phpmailer->Port = $_ENV['MAIL_PORT'];
-        $phpmailer->Username = $_ENV['MAIL_USERNAME'];
-        $phpmailer->Password = $_ENV['MAIL_PASSWORD'];
-
         try {
-            $phpmailer->setFrom($_ENV['MAIL_FROM_ADDRESS']);
-            $phpmailer->addAddress($this->email);
-            $phpmailer->Subject = 'New notice from '.$this->publisher;
+            $this->phpmailer->setFrom($_ENV['MAIL_FROM_ADDRESS']);
+            $this->phpmailer->addAddress($this->email);
+            $this->phpmailer->Subject = 'New notice from '.$this->publisher;
 
-            $phpmailer->isHTML();
-            $phpmailer->CharSet = 'UTF-8';
+            $this->phpmailer->isHTML();
+            $this->phpmailer->CharSet = 'UTF-8';
 
             $content = '<html lang="en">
             <head>
@@ -116,11 +109,57 @@ class Email
             </body>
         </html>';
 
-            $phpmailer->Body = $content;
-            $phpmailer->send();
+            $this->phpmailer->Body = $content;
+            $this->phpmailer->send();
         }
         catch (Exception) {
-            echo 'Could not sent the message: ' . $phpmailer->ErrorInfo;
+            echo 'Could not sent the message: ' . $this->phpmailer->ErrorInfo;
+            var_dump($this->email); die();
+        }
+    }
+
+    public function sendUpgradeEmail(): void
+    {
+        try {
+            $this->phpmailer->setFrom($_ENV['MAIL_FROM_ADDRESS']);
+            $this->phpmailer->addAddress($this->email);
+            $this->phpmailer->Subject = 'New role assigned';
+
+            $this->phpmailer->isHTML();
+            $this->phpmailer->CharSet = 'UTF-8';
+
+            $content = '<html lang="en">
+            <head>
+                <title>New role</title>
+
+                <style>
+                    body {
+                        margin-top: 10%;
+                        font-family: Arial, Helvetica, sans-serif;
+                        background-color: #1D1A1D;
+                        color: #F7F6EF;
+                        text-align: center;
+                    }
+                    a {
+                        color: #DB9562;
+                    }
+                </style>
+
+            </head>
+            <body>
+                <h1>New role adquired</h1>
+                <h2>Hello '.$this->username.'!</h2>
+                <h3>Good news! You have successfully purchased the <strong>WRITER</strong> role!</h3>
+                <br>
+                <p>You can start creating blog entries <a href="http://space-blog#blog">here</a></p>
+            </body>
+        </html>';
+
+            $this->phpmailer->Body = $content;
+            $this->phpmailer->send();
+        }
+        catch (Exception) {
+            echo 'Could not sent the message: ' . $this->phpmailer->ErrorInfo;
             var_dump($this->email); die();
         }
     }

@@ -318,6 +318,27 @@ h3 {
         border: none;
     }
 }
+.writer-ad, .add-article {
+    position: absolute;
+    right: 3%;
+    transform: translateY(250%);
+
+    .writer-ad-content {
+        font-size: 16px;
+        text-transform: none;
+    }
+
+    .add-article-content {
+        font-size: 20px;
+        text-transform: none;
+    }
+}
+.upgrade-button {
+    color: var(--accent-color);
+    text-transform: none !important;
+    font-size: 16px !important;
+    font-weight: normal !important;
+}
 // When the screen size increases, the font size will increase too
 @media (min-width: 2000px) {
     body {
@@ -417,9 +438,6 @@ h3 {
     }
     .blog-heading {
         font-size: 28px;
-    }
-    .blog-content {
-        gap: 100px;
     }
     .entry-heading {
         h2 {
