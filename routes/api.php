@@ -35,4 +35,6 @@ Route::post('/toggle-subscription', [UserController::class, 'toggleSubscription'
 
 Route::get('/set-writer-role', [UserController::class, 'setWriterRole'])->name('api.set.writer.role');
 Route::post('/save-article', [ArticleController::class, 'saveArticle'])->name('api.save.article');
+Route::post('/update-article', [ArticleController::class, 'updateArticle'])->name('api.update.article');
 Route::get('/get-articles', [ArticleController::class, 'index'])->name('api.get.articles');
+Route::get('/get-article/{article}', [ArticleController::class, 'getArticle'])->name('api.get.article');

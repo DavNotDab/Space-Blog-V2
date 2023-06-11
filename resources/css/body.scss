@@ -96,6 +96,8 @@ h3 {
 }
 // Styling for the article's text
 .article-info {
+    width: 100%;
+    justify-content: space-between;
     gap: 50px;
     p {
         font-size: 18px;
@@ -338,6 +340,19 @@ h3 {
     text-transform: none !important;
     font-size: 16px !important;
     font-weight: normal !important;
+}
+.form-content {
+    padding: 0 10%;
+}
+.article-edit {
+    font-size: 1rem !important;
+    color: var(--accent-color);
+    text-decoration: none;
+
+    &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+    }
 }
 // When the screen size increases, the font size will increase too
 @media (min-width: 2000px) {

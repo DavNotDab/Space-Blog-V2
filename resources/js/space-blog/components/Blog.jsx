@@ -31,7 +31,7 @@ export default function Blog() {
 
     const formatDate = (date) => {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(date).toLocaleDateString(undefined, options);
+        return new Date(date).toLocaleDateString('en-GB', options);
     }
 
     useEffect(() => {
@@ -83,7 +83,7 @@ export default function Blog() {
                                         {article.description}
                                     </p>
                                     <div className="entry-readFullArticle">
-                                        <Link to={"/article"}>Read the full article</Link>
+                                        <Link to={"/article/" + article.id}>Read the full article</Link>
                                     </div>
                                 </div>
                             </div>

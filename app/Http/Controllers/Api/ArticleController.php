@@ -15,7 +15,9 @@ class ArticleController extends Controller
      */
     public function index(): Collection
     {
-        return Article::all();
+        return Article::with('user')
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 
     /**
@@ -50,34 +52,44 @@ class ArticleController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Update the specified resource in the database.
      */
-    public function show(Article $article)
+    public function updateArticle(Request $request)
     {
-        //
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json([
+                'message' => 'You must be logged in to update an article.',
+            ], 401);
+        }
+
+        $img_name = $request->file('image')->getClientOriginalName();
+
+        $request->file('image')->storeAs('article-images', $img_name);
+
+        $article = Article::find($request->id);
+
+        $article->title = $request->title;
+        $article->description = $request->description;
+        $article->content = $request->article_content;
+        $article->image = $img_name;
+        $article->save();
+
+        return response()->json([
+            'message' => 'Article updated successfully.',
+            'article' => $article,
+        ], 201);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Article $article)
-    {
-        //
-    }
 
     /**
-     * Update the specified resource in storage.
+     * Returns the article with the given id.
      */
-    public function update(Request $request, Article $article)
+    public function getArticle($article_id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Article $article)
-    {
-        //
+        return Article::where('id', $article_id)
+            ->with('user')
+            ->first();
     }
 }

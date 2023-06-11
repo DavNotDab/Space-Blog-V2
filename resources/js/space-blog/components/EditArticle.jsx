@@ -1,21 +1,43 @@
 import NavBar from "./NavBar";
-import React, {useState} from "react";
+import React, {useLayoutEffect, useState} from "react";
 import axios from "axios";
+import {useParams} from "react-router-dom";
 
-export default function AddArticle() {
+export default function EditArticle() {
+
+    const [fieldsValid, setFieldsValid] = useState(false);
+    const [invalidFields, setInvalidFields] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [article, setArticle] = useState({});
 
     const [values, setValues] = useState({
+        id: '',
         title: '',
         description: '',
         article_content: '',
         image: ''
     })
 
-    window.scrollTo(0, 0);
+    const params = useParams();
+    const id = params.id;
 
-    const [fieldsValid, setFieldsValid] = useState(false);
-    const [invalidFields, setInvalidFields] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const getArticle = async () => {
+        if (id) {
+            try {
+                const response = await axios.get(`/api/get-article/${id}`);
+                console.log(response.data)
+                setArticle(response.data);
+                setValues({
+                    id: response.data.id,
+                    title: response.data.title,
+                    description: response.data.description,
+                    article_content: response.data.content
+                })
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    }
 
     const showEmptyFields = () => {
         console.log(fieldsValid)
@@ -34,7 +56,7 @@ export default function AddArticle() {
 
         console.log(values)
         try {
-            const response = await axios.post('/api/save-article',
+            const response = await axios.post('/api/update-article',
                 values,
                 {
                     headers: {
@@ -109,13 +131,19 @@ export default function AddArticle() {
         setValues({...values, image: event.target.files[0]})
     };
 
+    useLayoutEffect(() => {
+        window.scrollTo(0, 0);
+        getArticle();
+        console.log(article)
+    }, []);
+
     return (
         <>
             <NavBar page={"addArticle"}/>
 
             <main className="container-xxl d-flex flex-column justify-content-center my-5">
                 <div className="container text-center p-2 my-4" id="top">
-                    <h1>Write Article</h1>
+                    <h1>Edit Article</h1>
                 </div>
 
                 <form encType="multipart/form-data" className={"form-content pt-5"}>
@@ -181,8 +209,8 @@ export default function AddArticle() {
 
                                         <span hidden>
                                             { setTimeout(() => {
-                                                window.location.href = "/#blog";
-                                            }, 2000)}
+                                            window.location.href = "/#blog";
+                                        }, 2000)}
                                         </span>
 
                                         <div className="container text-center p-2 mt-2">

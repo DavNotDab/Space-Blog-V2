@@ -15,6 +15,7 @@ import {useDispatch, useSelector} from "react-redux";
 import Profile from "./Profile";
 import ResetPassword from "./ResetPassword";
 import AddArticle from "./AddArticle";
+import EditArticle from "./EditArticle";
 
 export default function App() {
 
@@ -36,7 +37,7 @@ export default function App() {
             <main className="content">
                 <Routes>
                     <Route exact path="/" element={<Home />} />
-                    <Route path="/article" element={<Article />} />
+                    <Route path="/article/:id?" element={<Article />} />
                     <Route path="/news" element={<News />} />
                     <Route path="/gallery" element={<Gallery />} />
                     <Route path="/about" element={<About />} />
@@ -47,6 +48,7 @@ export default function App() {
                     <Route path="/profile" element={<Profile/>} />
                     <Route path="/reset-password/:token?" element={<ResetPassword />} />
                     <Route path="/add-article" element={<AddArticle/>} />
+                    <Route path="/edit-article/:id?" element={<EditArticle/>} />
                     <Route path="*" element={<h1>Not found</h1>} />
                 </Routes>
                 <Footer/>
