@@ -5,8 +5,8 @@ import NavBar from "./NavBar";
 import {useDispatch} from "react-redux";
 import loadStatus from "./ApiResources";
 import {setUpdate} from "../slices/UpdateSlice";
-import VerifyEmail from "@/space-blog/components/VerifyEmail";
-import ForgotPassword from "@/space-blog/components/ForgotPassword";
+import VerifyEmail from "./VerifyEmail";
+import ForgotPassword from "./ForgotPassword";
 
 
 export default function Login() {
