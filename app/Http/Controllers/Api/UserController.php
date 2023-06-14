@@ -32,8 +32,6 @@ class UserController
      */
     public function updateLastLogin()
     {
-        dd(Auth::check(), Auth::user());
-
         if (Auth::check()) {
             $user = Auth::user();
             $user = User::find($user->id);
