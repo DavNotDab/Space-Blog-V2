@@ -12,8 +12,8 @@ class UserStatusService
      */
     public function getCurrentState(): array
     {
-        $user = Auth::user();
-        if ($user) {
+        if (Auth::check()) {
+            $user = Auth::user();
 
             return [
                 'user' => $user

@@ -32,9 +32,8 @@ class UserController
      */
     public function updateLastLogin()
     {
-        $user = Auth::user();
-
-        if ($user) {
+        if (Auth::check()) {
+            $user = Auth::user();
             $user = User::find($user->id);
 
             $date = date('Y-m-d H:i:s');

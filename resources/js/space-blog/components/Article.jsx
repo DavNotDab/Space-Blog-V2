@@ -53,7 +53,7 @@ export default function Article() {
                             <p className="article-date">{formatDate(article.created_at)}</p>
                             <p className="article-author">By {article.user?.name}</p>
                             {
-                                article.user_id === user.id ?
+                                article.user_id === user?.id ?
                                     <p><Link className="article-edit" to={"/edit-article/" + article.id}>Edit article</Link></p>
                                     : null
                             }
