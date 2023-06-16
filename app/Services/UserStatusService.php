@@ -12,6 +12,7 @@ class UserStatusService
      */
     public function getCurrentState(): array
     {
+        dd(session()->all());
         if (Auth::check()) {
             $user = Auth::user();
 
