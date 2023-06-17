@@ -1,5 +1,3 @@
-import NavBar from "./NavBar";
-
 
 export default function VerifyEmail() {
 

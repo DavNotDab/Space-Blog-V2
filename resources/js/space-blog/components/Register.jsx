@@ -18,21 +18,41 @@ export default function Register() {
         name: '',
         password: '',
         password_confirmation: ''
-    })
+    });
+    const [errors, setErrors] = useState({});
+    const [emailTaken, setEmailTaken] = useState(false);
 
     const dispatch = useDispatch();
 
-    const [fieldsValid, setFieldsValid] = useState(false);
-
     const showEmptyFields = () => {
-        console.log(fieldsValid)
-        // Takes all the fields from the document
         const fields = [...document.querySelectorAll('input, select')];
+        const fieldErrors = {};
+
         // For every field, if it is empty, adds the class "empty" to it. Otherwise, removes it
         fields.forEach(field => {
-            if (!verifyField(field)) field.classList.add('invalid-input');
-            else field.classList.remove('invalid-input');
+            if (!verifyField(field)) {
+                switch (field.type) {
+                    case 'text':
+                        field.value.length < 3 ?
+                            fieldErrors[field.id] = ['Minimum length is three.'] :
+                            fieldErrors[field.id] = ['Only letters and numbers are allowed.'];
+                        break;
+                    case 'email':
+                        fieldErrors[field.id] = ['Please enter a valid email.'];
+                        break;
+                    case 'password':
+                        field.id === 'password_confirmation' ?
+                            fieldErrors[field.id] = ['Passwords do not match.'] :
+                            fieldErrors[field.id] = ['Password must have at least 8 characters, 1 uppercase letter, 1 lowercase letter and 1 number.'];
+                        break;
+                    default:
+                        fieldErrors[field.id] = ['Please fill this field.'];
+                        break;
+                }
+            }
         });
+
+        setErrors(fieldErrors);
     }
 
     const handleSubmit = async () => {
@@ -41,27 +61,31 @@ export default function Register() {
         activateModal.click();
 
         try {
-            axios.post('/register', values).then(response => {
-                console.log(response.data)
-                setLoading(false);
-            });
+            const response = await axios.post('/register', values);
+
+            console.log(response.data)
+            setEmailTaken(false)
+            setLoading(false);
 
             await loadStatus(dispatch);
 
         } catch (error) {
-            switch (error.response.status) {
-                case 422:
-                    console.log('VALIDATION FAILED:', error.response.data.errors);
-                    break;
-                case 500:
-                    console.log('UNKNOWN ERROR', error.response.data);
-                    break;
+            if (error.response.status === 422) {
+                setEmailTaken(true);
+                setLoading(false);
+            } else if (error.response.status === 500) {
+                console.log('UNKNOWN ERROR', error.response.data);
             }
         }
     }
 
     const verifyField = (field) => {
         if (field.value === '') return false;
+
+        if (field.id === 'name') {
+            const regex = /^[a-zA-Z0-9]{3,}$/;
+            return regex.test(field.value);
+        }
 
         else if (field.id === 'email') {
             const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -82,28 +106,45 @@ export default function Register() {
     }
 
     const handleChange = (event) => {
-        // Takes all the fields from the document and checks if they are all filled
-        const allFieldsValid = [...document.querySelectorAll('input, select')]
-            // For every field, stores in allFieldsValid true if the field is verified, false otherwise
-            .every(field => {
-                return verifyField(field);
-            });
+        const field = event.target;
+        const fieldErrors = { ...errors };
 
-        // Sets the state to true if all fields are verified, false otherwise
-        setFieldsValid(allFieldsValid);
+        if (verifyField(field)) {
+            delete fieldErrors[field.id];
+        } else {
+            switch (field.type) {
+                case 'text':
+                    field.value.length < 3 ?
+                        fieldErrors[field.id] = ['Minimum length is three.'] :
+                    fieldErrors[field.id] = ['Only letters and numbers are allowed.'];
+                    break;
+                case 'email':
+                    fieldErrors[field.id] = ['Please enter a valid email.'];
+                    break;
+                case 'password':
+                    field.id === 'password_confirmation' ?
+                        fieldErrors[field.id] = ['Passwords do not match.'] :
+                        fieldErrors[field.id] = ['Password must have at least 8 characters, 1 uppercase letter, 1 lowercase letter and 1 number.'];
+                    break;
+                default:
+                    fieldErrors[field.id] = ['Please fill this field.'];
+                    break;
+            }
+        }
 
-        setValues(previous_values => {
-            return ({...previous_values,
-                [event.target.name]: event.target.value
-            });
-        });
+        setErrors(fieldErrors);
+
+        setValues((previousValues) => ({
+            ...previousValues,
+            [field.name]: field.value
+        }));
     }
 
     useEffect(() => {
         if (user) {
             navigate('/');
         }
-    }, [user])
+    }, [])
 
     return (
         <>
@@ -116,30 +157,44 @@ export default function Register() {
 
                     <div className="form-input">
                         <label className={"form-label"} htmlFor="name">Name: </label>
-                        <input className={"form-control"} type="text" id="name" name="name" placeholder="Type your name" value={values.name || ""} onChange={handleChange} required/>
+                        <input className={`form-control ${errors.name ? 'invalid-input' : ''}`}
+                               type="text" id="name" name="name" placeholder="Type your name"
+                               value={values.name || ""} onChange={handleChange} required/>
+                        {errors.name && <p className="error-message">{errors.name[0]}</p>}
                         <br/>
                     </div>
 
                     <div className="form-input">
                         <label className={"form-label"} htmlFor="email">Email: </label>
-                        <input className={"form-control"} type="email" id="email" name="email" placeholder="Type your email"  value={values.email || ""} onChange={handleChange} required/>
+                        <input className={`form-control ${errors.email ? 'invalid-input' : ''}`}
+                               type="email" id="email" name="email" placeholder="Type your email"
+                               value={values.email || ""} onChange={handleChange} required/>
+                        {errors.email && <p className="error-message">{errors.email[0]}</p>}
                         <br/>
                     </div>
 
                     <div className="form-input">
                         <label className={"form-label"} htmlFor="password">Password: </label>
-                        <input className={"form-control"} type="password" id="password" name="password" placeholder="Type your password" value={values.password || ""} onChange={handleChange} required />
+                        <input className={`form-control ${errors.password ? 'invalid-input' : ''}`}
+                               type="password" id="password" name="password" placeholder="Type your password"
+                               value={values.password || ""} onChange={handleChange} required />
+                        {errors.password && <p className="error-message">{errors.password[0]}</p>}
                         <br/>
                     </div>
 
                     <div className="form-input">
                         <label className={"form-label"} htmlFor="password_confirmation">Confirm password: </label>
-                        <input className={"form-control"} type="password" id="password_confirmation" name="password_confirmation" placeholder="Type your password again" value={values.password_confirmation || ""} onChange={handleChange} required />
+                        <input className={`form-control ${errors.password_confirmation ? 'invalid-input' : ''}`}
+                               type="password" id="password_confirmation" name="password_confirmation"
+                               placeholder="Type your password again" value={values.password_confirmation || ""}
+                               onChange={handleChange} required />
+                        {errors.password_confirmation && (
+                            <p className="error-message">{errors.password_confirmation[0]}</p>
+                        )}
                         <br/>
                     </div>
 
-                    <button className="btn form-button"
-                            onClick={fieldsValid ? handleSubmit : showEmptyFields}>
+                    <button className="btn form-button" onClick={Object.keys(errors).length === 0 ? handleSubmit : showEmptyFields}>
                         Register
                     </button>
                     <button id="activate-modal" hidden data-bs-toggle="modal" data-bs-target="#emailVerification"></button>
@@ -160,17 +215,22 @@ export default function Register() {
                             </button>
                         </div>
                         <div className="modal-body">
-                            {loading ?
+                            {emailTaken ?
+                                <div>
+                                    <p className="text-center">This email is already taken.</p>
+                                    <p className="text-center">Please try again with a different one.</p>
+                                </div>:
+                                loading ?
 
-                                <div className="Loading d-flex gap-3 align-items-center justify-content-center">
-                                    <span>Sending email...</span>
-                                    <div className="spinner-border" role="status">
-                                        <span className="visually-hidden">Loading...</span>
-                                    </div>
-                                </div>
-                                :
-                                <VerifyEmail/>
-                            }
+                                        <div className="Loading d-flex gap-3 align-items-center justify-content-center">
+                                            <span>Sending email...</span>
+                                            <div className="spinner-border" role="status">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                        :
+                                        <VerifyEmail/>
+                                }
                         </div>
                     </div>
                 </div>

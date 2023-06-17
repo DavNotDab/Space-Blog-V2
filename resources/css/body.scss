@@ -354,6 +354,10 @@ h3 {
         text-decoration: underline;
     }
 }
+.error-message {
+    color: var(--accent-color);
+    margin: 0;
+}
 // When the screen size increases, the font size will increase too
 @media (min-width: 2000px) {
     body {

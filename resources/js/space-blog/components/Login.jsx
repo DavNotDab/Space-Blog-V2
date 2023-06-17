@@ -15,6 +15,7 @@ export default function Login() {
         email: '',
         password: ''
     })
+    const [errors, setErrors] = useState({});
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -36,13 +37,10 @@ export default function Login() {
             scrollTo(0, 0);
 
         } catch (error) {
-            switch (error.response.status) {
-                case 422:
-                    console.log('VALIDATION FAILED:', error.response.data.errors);
-                    break;
-                case 500:
-                    console.log('UNKNOWN ERROR', error.response.data);
-                    break;
+            if (error.response.status === 422) {
+                setErrors(error.response.data.errors);
+            } else if (error.response.status === 500) {
+                console.log('UNKNOWN ERROR', error.response.data);
             }
         }
     }
@@ -72,6 +70,7 @@ export default function Login() {
                     <div className="form-input">
                         <label className={"form-label"} htmlFor="password">Password: </label>
                         <input className={"form-control"} type="password" id="password" name="password" placeholder="Type your password" value={values.password || ""} onChange={handleChange} required />
+                        {errors.email && <p className="error-message">{errors.email}</p>}
                         <br/>
                     </div>
 
