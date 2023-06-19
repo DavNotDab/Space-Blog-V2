@@ -125,7 +125,7 @@ export default function FavNews() {
                             <h2>You don't have any favorite news</h2>
                                 <div className="nav-button mt-5">
                                     <button className="accent">
-                                        <Link className="accent" to="/gallery">View news</Link>
+                                        <Link className="accent" to="/news">View news</Link>
                                     </button>
                                 </div>
                         </div>

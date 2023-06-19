@@ -87,7 +87,7 @@ export default function Subscriptions() {
                             <h2>You don't have any subscriptions to any publisher</h2>
                                 <div className="nav-button mt-5">
                                     <button className="accent">
-                                        <Link className="accent" to="/gallery">View news</Link>
+                                        <Link className="accent" to="/news">View news</Link>
                                     </button>
                                 </div>
                         </div>

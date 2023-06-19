@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Lib;
 use App\Models\User;
 use Exception;
@@ -16,19 +17,20 @@ class Email
         $this->username = $user->name;
         $this->publisher = $publisher;
 
-        $this->phpmailer = new PHPMailer();
+        $this->phpmailer = new PHPMailer(true);
         $this->phpmailer->isSMTP();
-        $this->phpmailer->Host = $_ENV['MAIL_HOST'];
+        $this->phpmailer->Host = 'smtp.gmail.com';
         $this->phpmailer->SMTPAuth = true;
-        $this->phpmailer->Port = $_ENV['MAIL_PORT'];
-        $this->phpmailer->Username = $_ENV['MAIL_USERNAME'];
-        $this->phpmailer->Password = $_ENV['MAIL_PASSWORD'];
+        $this->phpmailer->SMTPSecure = 'ssl';
+        $this->phpmailer->Port = '465';
+        $this->phpmailer->Username = 'SpaceBlogV2@gmail.com';
+        $this->phpmailer->Password = 'rduwsqoucvdbgoka';
     }
 
     public function sendSubscriptionConfirmation(): void
     {
         try {
-            $this->phpmailer->setFrom($_ENV['MAIL_FROM_ADDRESS']);
+            $this->phpmailer->setFrom('new.subscription@space-blog.com');
             $this->phpmailer->addAddress($this->email);
             $this->phpmailer->Subject = 'New subscription';
 
@@ -75,7 +77,7 @@ class Email
     public function sendNewNoticeNotification(): void
     {
         try {
-            $this->phpmailer->setFrom($_ENV['MAIL_FROM_ADDRESS']);
+            $this->phpmailer->setFrom('new.notice@space-blog.com');
             $this->phpmailer->addAddress($this->email);
             $this->phpmailer->Subject = 'New notice from '.$this->publisher;
 
@@ -121,7 +123,7 @@ class Email
     public function sendUpgradeEmail(): void
     {
         try {
-            $this->phpmailer->setFrom($_ENV['MAIL_FROM_ADDRESS']);
+            $this->phpmailer->setFrom('payments@space-blog.com');
             $this->phpmailer->addAddress($this->email);
             $this->phpmailer->Subject = 'New role assigned';
 
