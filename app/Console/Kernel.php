@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->call(function () {
-            $response = file_get_contents('https://api.spaceflightnewsapi.net/v3/articles?_limit=1');
+            $response = file_get_contents('https://api.spaceflightnewsapi.net/v4/articles/?limit=1');
 
             $last_publisher = json_decode($response, true)[0]['newsSite'];
 

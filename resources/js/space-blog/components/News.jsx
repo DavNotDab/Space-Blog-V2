@@ -65,8 +65,9 @@ export default function News() {
 
     const getNews = async () => {
         try {
-            axios.get(`https://api.spaceflightnewsapi.net/v3/articles?_limit=10&_start=${startAt}`).then(response => {
-                setNews([...news, ...response.data]);
+            axios.get(`https://api.spaceflightnewsapi.net/v4/articles/?limit=10&_start=${startAt}`).then(response => {
+                console.log(response.data.results)
+                setNews([...news, ...response.data?.results]);
                 setStartAt(startAt + 10);
             });
         } catch (error) {
@@ -200,7 +201,7 @@ export default function News() {
                                         <div className="card mb-3 m-4" style={{background: "none"}}>
                                             <div className="row g-5 align-items-center">
                                                 <div className="col-md-4 mt-0 d-flex align-items-center justify-content-center">
-                                                    <img src={notice.imageUrl}
+                                                    <img src={notice.image_url}
                                                          alt="Image of the new" className="img-fluid"/>
                                                 </div>
                                                 <div className="col-md-8 mt-0 p-3">
@@ -209,7 +210,7 @@ export default function News() {
                                                             {notice.title}
                                                         </h5>
                                                         <span className="new-date">
-                                                            {notice.publishedAt.slice(0, 16).replace('T', ' ')}
+                                                            {notice.published_at.slice(0, 16).replace('T', ' ')}
                                                         </span>
                                                         <h6 className="card-subtitle my-3">
                                                             {notice.summary}
@@ -223,7 +224,7 @@ export default function News() {
                                                             <p className="card-text entry-author d-flex align-items-center gap-4">
                                                                 <small>
                                                                     <span className="published-by">Published by: &nbsp;</span>
-                                                                    { notice.newsSite}
+                                                                    { notice.news_site}
                                                                 </small>
                                                                 <span className="fav-new" onClick={() => saveNewAsFavorite(notice.id, notice.newsSite)}>
                                                                     <svg xmlns="http://www.w3.org/2000/svg"

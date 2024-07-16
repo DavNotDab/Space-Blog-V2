@@ -76,7 +76,7 @@ export default function Article() {
                     </div>
                 </main>
                 :
-                <h1>Article not found</h1>
+                <h1 className="text-center p-5">Article not found</h1>
             }
 
         </>

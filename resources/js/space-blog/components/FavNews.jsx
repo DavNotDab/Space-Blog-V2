@@ -28,7 +28,7 @@ export default function FavNews() {
 
     const getFavoriteNew = async (image_id) => {
         try {
-            axios.get(`https://api.spaceflightnewsapi.net/v3/articles/${image_id}`, {
+            axios.get(`https://api.spaceflightnewsapi.net/v4/articles/${image_id}`, {
             }).then(response => {
                 setNews(news => [...news, response.data]);
             });
